@@ -21,17 +21,21 @@ alias sbash="source ~/.bash_profile"
 
 alias am="cd ~/automatica"
 alias docs="cd ~/aspera_tools/docs-dita"
+alias tools="cd ~/aspera_tools/internal_tools"
 alias .dot="cd ~/.dotfiles"
 
 #   -----------------------------
 #   EDIT CONFIG FILES
 #   -----------------------------
 
+alias v="vim"
 alias bp="vim ~/.bash_profile"
 alias vrc="vim ~/.vimrc"
+alias vplug="vim ~/.vim/plugins.vim"
 alias virc="vim ~/.ideavimrc"
 alias vc="vim ~/.vim/cheatsheet.txt"
 alias vgb="vim build_external/build_scripts/general.build.rb"
+alias vgc="vim ~/.gitconfig"
 
 #   -----------------------------
 #   APPLICATION SHORTCUTS
@@ -65,12 +69,14 @@ alias gs="git status"
 alias gconf="subl ~/.gitconfig"
 alias gp="git pull"
 alias gps="git push"
+alias gpsb="git push; jbuild"
+alias gpsbr="git push; jbuild -r"
 
 #   -----------------------------
 #   GIT SCRIPTS
 #   -----------------------------
 
-tools_path="~/aspera_tools/internal-tools/scripts"
+tools_path="~/aspera_tools/internal_tools/scripts"
 
 alias lbuild="ruby $tools_path/run_test_build.rb"
 alias update="ruby $tools_path/update_repos.rb"
