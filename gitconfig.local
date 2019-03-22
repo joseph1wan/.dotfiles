@@ -1,0 +1,9 @@
+[user]
+# Please adapt and uncomment the following lines:
+name = Joseph Wan
+email = jhwanus@us.ibm.com
+[core]
+  excludesfile = /Users/jhwanus.ibm.com/.gitignore_global
+[alias]
+  cam = commit -a -m
+  ps = push

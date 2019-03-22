@@ -1,0 +1,7 @@
+" Removing escape
+ino jj <esc>
+cno jj <c-c>
+vno v <esc>
+
+nmap <Leader>so :so $MYVIMRC<Esc>
+nmap <Leader>eso :e $MYVIMRC<Esc>
