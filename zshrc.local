@@ -18,3 +18,4 @@ antigen apply
 spaceship_vi_mode_enable
 
 eval "$(rbenv init - zsh)"
+export PATH="$HOME/.rbenv/bin:$PATH"

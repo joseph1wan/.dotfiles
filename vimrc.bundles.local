@@ -1,1 +1,5 @@
 Plug 'thoughtbot/vim-rspec'
+Plug 'kana/vim-textobj-user'
+Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-scripts/vim-auto-save'

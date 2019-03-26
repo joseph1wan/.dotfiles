@@ -5,5 +5,8 @@ email = jhwanus@us.ibm.com
 [core]
   excludesfile = /Users/jhwanus.ibm.com/.gitignore_global
 [alias]
-  cam = commit -a -m
+  cm = commit
+  cml = commit -a -m
+  cma = commit --amend
+  cmla = commit -a --amend
   ps = push

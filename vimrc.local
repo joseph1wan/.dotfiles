@@ -1,7 +1,15 @@
-" Removing escape
+set ignorecase
+set scrolloff=5
+
 ino jj <esc>
 cno jj <c-c>
 vno v <esc>
 
 nmap <Leader>so :so $MYVIMRC<Esc>
-nmap <Leader>eso :e $MYVIMRC<Esc>
+nmap <Leader>eso :vsplit ~/dotfiles-local/vimrc.local<Esc>
+nmap <Leader>tip :split ~/.vim/cheatsheet.txt<Esc>
+nmap <Leader>R :R<Cr>
+nmap <Leader>n :NERDTreeToggle<Cr>
+nmap <Leader>E 20<C-E>
+
+nmap <Leader>= gg=G''

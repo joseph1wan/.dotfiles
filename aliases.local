@@ -1,9 +1,11 @@
 alias al='vim ~/dotfiles-local/aliases.local'
 alias l='ls'
-alias vzs="vim ~/.zshrc"
+alias vzs="vim ~/dotfiles-local/zshrc.local"
 alias so='source ~/.zshrc; echo "Sourced .zshrc"'
 alias soa='source ~/dotfiles-local/aliases.local; echo "Sourced aliases"'
 alias vgc='vim ~/dotfiles-local/gitconfig.local'
+alias vrc='vim ~/dotfiles-local/vimrc.local'
+alias vplug='vim ~/dotfiles-local/vimrc.bundles.local'
 alias notes='cd ~/notes'
 alias todo='vim ~/notes/todo'
 
