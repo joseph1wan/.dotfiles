@@ -1,13 +1,33 @@
-alias al='vim ~/dotfiles-local/aliases.local'
+#   -----------------------------
+#   NAVIGATION / MOVEMENT
+#   -----------------------------
+
 alias l='ls'
+alias cda='cd ~/aspera_tools'
+alias cdm='cd ~/automatica'
+alias cdd='cd ~/dotfiles'
+alias cdl='cd ~/dotfiles-local'
+alias cdb='cd ~/aspera_tools/docs-build'
+alias docs='cd ~/aspera_tools/docs-dita'
+
+#   -----------------------------
+#   EDIT FILES
+#   -----------------------------
+
 alias vzs="vim ~/dotfiles-local/zshrc.local"
-alias so='source ~/.zshrc; echo "Sourced .zshrc"'
-alias soa='source ~/dotfiles-local/aliases.local; echo "Sourced aliases"'
+alias al='vim ~/dotfiles-local/aliases.local'
 alias vgc='vim ~/dotfiles-local/gitconfig.local'
 alias vrc='vim ~/dotfiles-local/vimrc.local'
 alias vplug='vim ~/dotfiles-local/vimrc.bundles.local'
 alias notes='cd ~/notes'
 alias todo='vim ~/notes/todo'
+
+#   -----------------------------
+#   SOURCING FILES
+#   -----------------------------
+
+alias so='source ~/.zshrc; echo "Sourced .zshrc"'
+alias soa='source ~/dotfiles-local/aliases.local; echo "Sourced aliases"'
 
 #   -----------------------------
 #   INTERNAL TOOLS

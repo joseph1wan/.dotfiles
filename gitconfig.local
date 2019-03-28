@@ -10,3 +10,5 @@ email = jhwanus@us.ibm.com
   cma = commit --amend
   cmla = commit -a --amend
   ps = push
+  b = branch
+  ba = branch -a

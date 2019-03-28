@@ -5,6 +5,9 @@ ino jj <esc>
 cno jj <c-c>
 vno v <esc>
 
+nmap <Leader>o mao<Esc>'a
+nmap <Leader>O maO<Esc>'a
+nmap <Leader>w :w<Cr>
 nmap <Leader>so :so $MYVIMRC<Esc>
 nmap <Leader>eso :vsplit ~/dotfiles-local/vimrc.local<Esc>
 nmap <Leader>tip :split ~/notes/vim-cheatsheet<Esc>
@@ -22,7 +25,7 @@ autocmd VimResized * :wincmd =
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
 nnoremap <leader>s :wincmd =<cr>
 
-let g:rspec_command = "VtrSendCommandToRunner! bin/rspec {spec}"
+let g:rspec_command = "VtrSendCommandToRunner! rspec {spec}"
 
 " RSpec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
@@ -42,3 +45,17 @@ nnoremap <leader>fr :VtrFocusRunner<cr>
 nnoremap <Leader>sl :VtrSendLinesToRunner<cr>
 vno  <Leader>sl :VtrSendLinesToRunner<cr>
 nnoremap <leader>vs :VtrSendCommandToRunner<space>
+
+" Run a given vim command on the results of alt from a given path.
+" See usage below.
+function! AltCommand(path, vim_command)
+  let l:alternate = system("alt " . a:path)
+  if empty(l:alternate)
+    echo "No alternate file for " . a:path . " exists!"
+  else
+    exec a:vim_command . " " . l:alternate
+  endif
+endfunction
+
+" Find the alternate file for the current path and open it
+nnoremap <leader>. :w<cr>:call AltCommand(expand('%'),':e')<cr>
