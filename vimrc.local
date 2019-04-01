@@ -10,13 +10,15 @@ nmap <Leader>O maO<Esc>'a
 nmap <Leader>w :w<Cr>
 nmap <Leader>so :so $MYVIMRC<Esc>
 nmap <Leader>eso :vsplit ~/dotfiles-local/vimrc.local<Esc>
-nmap <Leader>tip :split ~/notes/vim-cheatsheet<Esc>
+nmap <Leader>vtip :split ~/notes/cheatsheets/vim-cheatsheet<Esc>
+nmap <Leader>ttip :split ~/notes/cheatsheets/tmux-cheatsheet<Esc>
+nmap <Leader>gtip :split ~/notes/cheatsheets/git-cheatsheet<Esc>
 nmap <Leader>r :R<Cr>
 nmap <Leader>R :vsplit<Cr>:R<Cr>
 nmap <Leader>n :NERDTreeToggle<Cr>
 nmap <Leader>E 20<C-E>
 
-nmap <Leader>ll gg=G''
+nmap <Leader>ll mkgg=G'k
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =

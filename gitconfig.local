@@ -5,10 +5,15 @@ email = jhwanus@us.ibm.com
 [core]
   excludesfile = /Users/jhwanus.ibm.com/.gitignore_global
 [alias]
-  cm = commit
+  cob = checkout -b
+  cobo = "!f() { (git co -b $1 origin/$1) }; f"
+  cm = commit -m
   cml = commit -a -m
   cma = commit --amend
   cmla = commit -a --amend
+  p = pull
+  pr = pull --rebase
   ps = push
   b = branch
   ba = branch -a
+  cfd = clean -fd

@@ -9,6 +9,7 @@ alias cdd='cd ~/dotfiles'
 alias cdl='cd ~/dotfiles-local'
 alias cdb='cd ~/aspera_tools/docs-build'
 alias docs='cd ~/aspera_tools/docs-dita'
+alias tx='tmuxinator'
 
 #   -----------------------------
 #   EDIT FILES
