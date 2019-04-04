@@ -18,3 +18,5 @@ antigen apply
 
 eval "$(rbenv init - zsh)"
 export PATH="$HOME/.rbenv/bin:$PATH"
+
+eval "$(direnv hook zsh)"
