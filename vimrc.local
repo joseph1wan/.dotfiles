@@ -1,10 +1,13 @@
+" Settings
 set ignorecase
 set scrolloff=5
 
+" Key mappings
 ino jj <esc>
 cno jj <c-c>
 vno v <esc>
 
+" Leader mappings
 nmap <Leader>o mao<Esc>'a
 nmap <Leader>O maO<Esc>'a
 nmap <Leader>w :w<Cr>
@@ -17,8 +20,14 @@ nmap <Leader>r :R<Cr>
 nmap <Leader>R :vsplit<Cr>:R<Cr>
 nmap <Leader>n :NERDTreeToggle<Cr>
 nmap <Leader>E 20<C-E>
+nmap <Leader>de $x
+nmap <Leader>,, mkgg=G'k
 
-nmap <Leader>ll mkgg=G'k
+vnoremap <Leader>y :%w !pbcopy<cr><cr>
+noremap <Leader>p :r !pbpaste<cr>
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
@@ -30,10 +39,10 @@ nnoremap <leader>s :wincmd =<cr>
 let g:rspec_command = "VtrSendCommandToRunner! rspec {spec}"
 
 " RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
+map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
+map <Leader>l :wa<CR>:call RunLastSpec()<CR>
+map <Leader>a :wa<CR>:call RunAllSpecs()<CR>
 
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 2
