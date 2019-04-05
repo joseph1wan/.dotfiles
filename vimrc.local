@@ -73,3 +73,5 @@ nnoremap <leader>. :w<cr>:call AltCommand(expand('%'),':e')<cr>
 
 set undofile
 set undodir=~/.vim/undodir
+
+let maplocalleader = ","
