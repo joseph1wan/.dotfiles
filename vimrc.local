@@ -11,6 +11,7 @@ vno v <esc>
 nmap <Leader>o mao<Esc>'a
 nmap <Leader>O maO<Esc>'a
 nmap <Leader>w :w<Cr>
+nmap <Leader>q :q<Cr>
 nmap <Leader>so :so $MYVIMRC<Esc>
 nmap <Leader>eso :vsplit ~/dotfiles-local/vimrc.local<Esc>
 nmap <Leader>vtip :split ~/notes/cheatsheets/vim-cheatsheet<Esc>
