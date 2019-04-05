@@ -32,6 +32,13 @@ alias so='source ~/.zshrc; echo "Sourced .zshrc"'
 alias soa='source ~/dotfiles-local/aliases.local; echo "Sourced aliases"'
 
 #   -----------------------------
+#   TODOS
+#   -----------------------------
+
+alias tpv="todo.sh projectview"
+alias tl="todo.sh ls"
+
+#   -----------------------------
 #   INTERNAL TOOLS
 #   -----------------------------
 
