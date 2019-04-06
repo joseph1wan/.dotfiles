@@ -20,9 +20,11 @@ nmap <Leader>gtip :split ~/notes/cheatsheets/git-cheatsheet<Esc>
 nmap <Leader>r :R<Cr>
 nmap <Leader>R :vsplit<Cr>:R<Cr>
 nmap <Leader>n :NERDTreeToggle<Cr>
-nmap <Leader>E 20<C-E>
-nmap <Leader>de $x
+nmap <Leader>ee 20<C-E>
+nmap <Leader>D mq$x`q
 nmap <Leader>,, mkgg=G'k
+nmap <Leader>F ^
+nmap <Leader>E $
 
 vnoremap <Leader>y :%w !pbcopy<cr><cr>
 noremap <Leader>p :r !pbpaste<cr>
