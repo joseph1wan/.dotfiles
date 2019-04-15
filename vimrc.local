@@ -18,11 +18,12 @@ nmap <Leader>vtip :split ~/notes/cheatsheets/vim-cheatsheet<Esc>
 nmap <Leader>ttip :split ~/notes/cheatsheets/tmux-cheatsheet<Esc>
 nmap <Leader>gtip :split ~/notes/cheatsheets/git-cheatsheet<Esc>
 nmap <Leader>r :R<Cr>
+nmap <Leader>rf :Rfactory<Cr>
 nmap <Leader>R :vsplit<Cr>:R<Cr>
 nmap <Leader>n :NERDTreeToggle<Cr>
 nmap <Leader>ee 20<C-E>
 nmap <Leader>D mq$x`q
-nmap <Leader>,, mkgg=G'k
+nmap <Leader>ll mkgg=G'k
 nmap <Leader>F ^
 nmap <Leader>E $
 
