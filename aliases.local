@@ -20,8 +20,8 @@ alias al='vim ~/dotfiles-local/aliases.local'
 alias vgc='vim ~/dotfiles-local/gitconfig.local'
 alias vrc='vim ~/dotfiles-local/vimrc.local'
 alias vplug='vim ~/dotfiles-local/vimrc.bundles.local'
-alias vtodo="vim ~/todo/todo.txt"
-alias notes='cd ~/notes'
+alias vtodo="vim ~/Dropbox/todo/todo.txt"
+alias notes='cd ~/Dropbox/notes'
 alias t="todo.sh"
 
 #   -----------------------------
