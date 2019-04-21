@@ -1,6 +1,7 @@
 " Settings
 set ignorecase
 set scrolloff=5
+set relativenumber
 
 " Key mappings
 ino jj <esc>
@@ -24,11 +25,12 @@ nmap <Leader>n :NERDTreeToggle<Cr>
 nmap <Leader>ee 20<C-E>
 nmap <Leader>D mq$x`q
 nmap <Leader>ll mkgg=G'k
+noremap <Leader>i mki <Esc>
 nmap <Leader>F ^
 nmap <Leader>E $
 
-vnoremap <Leader>y :%w !pbcopy<cr><cr>
-noremap <Leader>p :r !pbpaste<cr>
+vnoremap <Leader>c :%w !pbcopy<cr><cr>
+noremap <Leader>v :r !pbpaste<cr>
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
