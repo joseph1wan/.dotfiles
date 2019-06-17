@@ -28,6 +28,7 @@ nmap <Leader>ll mkgg=G'k
 noremap <Leader>i mki <Esc>
 nmap <Leader>F ^
 nmap <Leader>E $
+nmap <Leader>S pkdd
 
 vnoremap <Leader>c :%w !pbcopy<cr><cr>
 noremap <Leader>v :r !pbpaste<cr>
@@ -49,6 +50,17 @@ map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
 map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
 map <Leader>l :wa<CR>:call RunLastSpec()<CR>
 map <Leader>a :wa<CR>:call RunAllSpecs()<CR>
+
+function! RunFeatures()
+  :VtrSendCommandToRunner rspec spec/features
+endfunction
+
+function! RunClasses()
+  :VtrSendCommandToRunner rspec spec/classes
+endfunction
+
+command! Rfeat call RunFeatures()
+command! Rclass call RunClasses()
 
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 2
