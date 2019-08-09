@@ -1,5 +1,5 @@
 setopt auto_cd
-cdpath=($HOME/aspera_tools $HOME/aspera_tools/docs-dita)
+cdpath=($HOME/docs-dita)
 
 source /usr/local/share/antigen/antigen.zsh
 

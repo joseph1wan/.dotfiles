@@ -32,17 +32,22 @@ alias so='source ~/.zshrc; echo "Sourced .zshrc"'
 alias soa='source ~/dotfiles-local/aliases.local; echo "Sourced aliases"'
 
 #   -----------------------------
-#   TODOS
+#   TESTING
 #   -----------------------------
 
-alias tpv="todo.sh projectview"
-alias tl="todo.sh ls"
+alias rs='rspec'
+alias rs-o='rspec --only-fail --format doc'
+alias dcr='docker-compose run --rm runner'
+alias dcb='docker-compose build'
+alias dcu='docker-compose up rails'
+alias pdcu='RAILS_ENV=production docker-compose up rails'
+alias dc="docker-compose"
 
 #   -----------------------------
 #   INTERNAL TOOLS
 #   -----------------------------
 
-tools_path="~/aspera_tools/internal_tools/scripts"
+tools_path="~/internal_tools/scripts"
 
 alias lbuild="ruby $tools_path/run_test_build.rb"
 alias update="ruby $tools_path/update_repos.rb"
