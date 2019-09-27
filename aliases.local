@@ -42,6 +42,7 @@ alias dcb='docker-compose build'
 alias dcu='docker-compose up rails'
 alias pdcu='RAILS_ENV=production docker-compose up rails'
 alias dc="docker-compose"
+alias dcp="docker exec -it automatica_postgres_1 psql automatica_dev -U postgres"
 
 #   -----------------------------
 #   INTERNAL TOOLS
@@ -53,13 +54,13 @@ alias lbuild="ruby $tools_path/run_test_build.rb"
 alias update="ruby $tools_path/update_repos.rb"
 alias checkout="ruby $tools_path/checkout_repos.rb"
 alias external="ruby $tools_path/configure_externals.rb"
-alias add_module="ruby ~/aspera_tools/authoring_tools/add_module_to_file.rb"
 
 #   -----------------------------
 #   BUILD SCRIPTS
 #   -----------------------------
 
 alias jbuild="ruby $tools_path/run_builds.rb"
+alias pbuild="g ps; jbuild"
 alias jconf="ruby $tools_path/configure_jenkins_build.rb"
 alias p2prod="ruby $tools_path/push_to_prod.rb"
 

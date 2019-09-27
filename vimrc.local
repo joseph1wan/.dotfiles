@@ -2,6 +2,7 @@
 set ignorecase
 set scrolloff=5
 set relativenumber
+set tags^=./.git/tags
 
 " Key mappings
 ino jj <esc>
@@ -35,13 +36,16 @@ nmap <Leader>n :NERDTreeToggle<Cr>
 
 " Braces and parens
 nmap <Leader>) ysiW)X2w
+nmap <Leader>d) ds)i <Esc>
 nmap <Leader># ysiW}i#<Esc>
 nmap <Leader>: i:<Esc>ysiW]i
+nmap <Leader>" F:xysiw"
 
 " Replace word with paste
 nmap <Leader>vwp viwp
 
-" Copy and paste with keyboard
+" Copy and paste
+nmap <Leader>ya ggyG
 vnoremap <Leader>c :%w !pbcopy<cr><cr>
 noremap <Leader>v :r !pbpaste<cr>
 
@@ -51,11 +55,17 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 
-let g:rspec_command = "VtrSendCommandToRunner! xvfb-run -a rspec {spec} --format doc"
 
 " RSpec.vim mappings
-map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
-map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
+if expand('%:p') =~ '/automatica/'
+  let g:rspec_command = "VtrSendCommandToRunner! xvfb-run -a rspec {spec} --format doc"
+  map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
+  map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
+else
+  let g:rspec_command = "VtrSendCommandToRunner! rspec {spec} --format doc"
+  map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
+  map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
+end
 map <Leader>l :wa<CR>:call RunLastSpec()<CR>
 map <Leader>a :wa<CR>:call RunAllSpecs()<CR>
 

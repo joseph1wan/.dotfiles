@@ -1,2 +1,6 @@
 Style/StringLiterals:
   EnforcedStyle: double_quotes
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+Style/IfUnlessModifier:
+  Enabled: false
