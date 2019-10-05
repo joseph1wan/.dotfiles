@@ -67,3 +67,10 @@ alias p2prod="ruby $tools_path/push_to_prod.rb"
 
 alias gpb="git push; jbuild"
 alias gpbr="git push; jbuild -r"
+gcg(){
+  if [ $# != 2 ]; then
+    echo "Requires two arguments: group and repo_name"
+  else;
+    git clone "git@gitlab.aspera.us:$1/$2.git"
+  fi
+}
