@@ -52,11 +52,16 @@ bind-key K run-shell 'tmux switch-client -n \; kill-session -t "$(tmux display-m
 
 bind m select-pane -t 2\; resize-pane -Z
 
+set -g @continuum-boot 'on'
+set -g @continuum-boot-options 'iTerm'
+
 # List of plugins
 set -g @tpm_plugins '           \
-   tmux-plugins/tpm             \
-   christoomey/vim-tmux-navigator \
-         '
+      tmux-plugins/tpm             \
+      christoomey/vim-tmux-navigator \
+      tmux-plugins/tmux-resurrect \
+      tmux-plugins/tmux-continuum \
+      '
 
 # Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
-run -b '~/.tmux/plugins/tpm/tpm'
+      run -b '~/.tmux/plugins/tpm/tpm'
