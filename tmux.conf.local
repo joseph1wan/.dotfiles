@@ -53,7 +53,9 @@ bind-key K run-shell 'tmux switch-client -n \; kill-session -t "$(tmux display-m
 bind m select-pane -t 2\; resize-pane -Z
 
 set -g @continuum-boot 'on'
-set -g @continuum-boot-options 'iTerm'
+set -g @continuum-restore 'on'
+set -g @continuum-boot-options 'iterm,fullscreen'
+set -g status-right 'Continuum status: #{continuum_status}   '
 
 # List of plugins
 set -g @tpm_plugins '           \
@@ -63,5 +65,5 @@ set -g @tpm_plugins '           \
       tmux-plugins/tmux-continuum \
       '
 
-# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
-      run -b '~/.tmux/plugins/tpm/tpm'
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf
+run -b '~/.tmux/plugins/tpm/tpm'

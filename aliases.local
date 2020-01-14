@@ -39,8 +39,8 @@ alias rs='rspec'
 alias rs-o='rspec --only-fail --format doc'
 alias dcr='docker-compose run --rm runner'
 alias dcb='docker-compose build'
-alias dcu='docker-compose up rails'
-alias pdcu='RAILS_ENV=production docker-compose up rails'
+alias dcur='docker-compose up rails'
+alias pdcur='RAILS_ENV=production docker-compose up rails'
 alias dc="docker-compose"
 alias dcp="docker exec -it automatica_postgres_1 psql automatica_dev -U postgres"
 
@@ -73,4 +73,35 @@ gcg(){
   else;
     git clone "git@gitlab.aspera.us:$1/$2.git"
   fi
+}
+
+#   -----------------------------
+#   TESTING DC UE
+#   -----------------------------
+dbuild(){
+  if [[ $2 == "+token" ]]; then
+    echo "docker build with UE_TOKEN"
+    bundle
+    docker build --build-arg UE_TOKEN='Cbpx87BSrnxnbNaqbHZq' -t $1 .
+  else
+    bundle
+    docker build -t $1 .
+  fi
+}
+alias ue-dm="docker run --rm --name dm -v docs-dita:/root/docs-dita -p 9494:9494 --link redis:redis ue-docs-manager"
+alias ue-dm-sk="docker exec -it dm bin/sidekiq -r /app/docs_manager_server.rb"
+alias ue-redis="docker run --rm -p 6379:6379 --name redis redis:alpine3.10 -d"
+alias d-ue-b="docker run --rm -it --name ubs -p 9393:9393 -v ue-dita-ot:/root/ue-dita-ot --network=ue-test ue-build-server"
+alias dcudev="docker-compose -f dev-docker-compose.yml up"
+alias dr="docker run --rm -it"
+alias ue-dm="docker run --rm -it --link redis:redis -p 9494:9494 ue-docs-manager"
+alias ue-bs="docker run --rm -it --link redis:redis -p 9393:9393 ue-build-server"
+alias dbuild="docker build -t ${PWD##*/} ."
+build_pipe(){
+  "docker build --build-arg VAULT_ADDR=https://vault.aspera.us --build-arg VAULT_TOKEN=$(vault token lookup -address https://vault.aspera.us -format json | jq -r '.data.id') -t ue-pipeline-builder ."
+}
+
+build_kc(){
+  version=$(git rev-parse --abbrev-ref HEAD)
+  ue-build pipeline kc_build $version linux $1
 }

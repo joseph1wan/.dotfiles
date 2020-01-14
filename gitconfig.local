@@ -17,3 +17,4 @@ email = jhwanus@us.ibm.com
   b = branch
   ba = branch -a
   cfd = clean -fd
+  m = merge
