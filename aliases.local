@@ -10,6 +10,9 @@ alias cdl='cd ~/dotfiles-local'
 alias cdb='cd ~/aspera_tools/docs-build'
 alias docs='cd ~/aspera_tools/docs-dita'
 alias tx='tmuxinator'
+jira(){
+  open "https://jira.aspera.us/browse/$1"
+}
 
 #   -----------------------------
 #   EDIT FILES
@@ -78,16 +81,16 @@ gcg(){
 #   -----------------------------
 #   TESTING DC UE
 #   -----------------------------
-dbuild(){
-  if [[ $2 == "+token" ]]; then
-    echo "docker build with UE_TOKEN"
-    bundle
-    docker build --build-arg UE_TOKEN='Cbpx87BSrnxnbNaqbHZq' -t $1 .
-  else
-    bundle
-    docker build -t $1 .
-  fi
-}
+# dbuild(){
+#   if [[ $2 == "+token" ]]; then
+#     echo "docker build with UE_TOKEN"
+#     bundle
+#     docker build --build-arg UE_TOKEN='Cbpx87BSrnxnbNaqbHZq' -t $1 .
+#   else
+#     bundle
+#     docker build -t $1 .
+#   fi
+# }
 alias ue-dm="docker run --rm --name dm -v docs-dita:/root/docs-dita -p 9494:9494 --link redis:redis ue-docs-manager"
 alias ue-dm-sk="docker exec -it dm bin/sidekiq -r /app/docs_manager_server.rb"
 alias ue-redis="docker run --rm -p 6379:6379 --name redis redis:alpine3.10 -d"
@@ -96,7 +99,7 @@ alias dcudev="docker-compose -f dev-docker-compose.yml up"
 alias dr="docker run --rm -it"
 alias ue-dm="docker run --rm -it --link redis:redis -p 9494:9494 ue-docs-manager"
 alias ue-bs="docker run --rm -it --link redis:redis -p 9393:9393 ue-build-server"
-alias dbuild="docker build -t ${PWD##*/} ."
+alias dbuild="docker build -t"
 build_pipe(){
   "docker build --build-arg VAULT_ADDR=https://vault.aspera.us --build-arg VAULT_TOKEN=$(vault token lookup -address https://vault.aspera.us -format json | jq -r '.data.id') -t ue-pipeline-builder ."
 }
@@ -104,4 +107,10 @@ build_pipe(){
 build_kc(){
   version=$(git rev-parse --abbrev-ref HEAD)
   ue-build pipeline kc_build $version linux $1
+}
+
+alias python="python3"
+alias pip="pip3"
+g_pipe(){
+  open http://gitlab.aspera.us/techpubs/$1/pipelines
 }

@@ -18,3 +18,4 @@ email = jhwanus@us.ibm.com
   ba = branch -a
   cfd = clean -fd
   m = merge
+  df = diff --name-only

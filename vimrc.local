@@ -18,9 +18,6 @@ nmap <Leader>D mq$x`q
 nmap <Leader>ll mkgg=G'k
 noremap <Leader>i mki <Esc>
 nmap <Leader>F ^
-nmap <Leader>E $
-nmap <Leader>S pkdd
-
 " File manipulation
 nmap <Leader>w :wa<Cr>
 nmap <Leader>q :q<Cr>
@@ -28,9 +25,9 @@ nmap <Leader>so :so $MYVIMRC<Esc>
 nmap <Leader>eso :vsplit ~/dotfiles-local/vimrc.local<Esc>
 
 " Alternate files and rspec files
-nmap <Leader>r :R<Cr>
+nmap <Leader>r :A<Cr>
 nmap <Leader>rf :Rfactory<Cr>
-nmap <Leader>R :vsplit<Cr>:R<Cr>
+nmap <Leader>R :vsplit<Cr>:A<Cr>
 
 nmap <Leader>n :NERDTreeToggle<Cr>
 
@@ -45,6 +42,9 @@ nmap <Leader>" F:xysiw"
 " Replace word with paste
 nmap <Leader>vwp viwp
 
+" Use macro
+nmap <Leader>1 @q
+nmap <Leader>2 @w
 " Copy and paste
 nmap <Leader>ya ggyG
 vnoremap <Leader>cc :%w !pbcopy<cr><cr>
