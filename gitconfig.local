@@ -1,7 +1,7 @@
 [user]
 # Please adapt and uncomment the following lines:
 name = Joseph Wan
-email = jhwanus@us.ibm.com
+email = jhwan@us.ibm.com
 [core]
   excludesfile = /Users/jhwanus.ibm.com/.gitignore_global
 [alias]
@@ -19,3 +19,4 @@ email = jhwanus@us.ibm.com
   cfd = clean -fd
   m = merge
   df = diff --name-only
+  fu = commit --amend --no-edit

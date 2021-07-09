@@ -5,8 +5,12 @@ set relativenumber
 set tags^=./.git/tags
 
 " Key mappings
-ino jj <esc>
-cno jj <c-c>
+ino jk <esc>
+cno jk <c-c>
+cno <C-h> <Left>
+cno <C-j> <Down>
+cno <C-k> <Up>
+cno <C-l> <Right>
 vno v <esc>
 nmap <Leader>- :split<Cr>
 nmap <Leader>\ :vsplit<Cr>
@@ -17,17 +21,20 @@ nmap <Leader>O maO<Esc>'a
 nmap <Leader>D mq$x`q
 nmap <Leader>ll mkgg=G'k
 noremap <Leader>i mki <Esc>
-nmap <Leader>F ^
+nmap <Leader>H ^
+nmap <Leader>L $
+
 " File manipulation
 nmap <Leader>w :wa<Cr>
 nmap <Leader>q :q<Cr>
-nmap <Leader>so :so $MYVIMRC<Esc>
+nmap <Leader>so :so $MYVIMRC<CR>
 nmap <Leader>eso :vsplit ~/dotfiles-local/vimrc.local<Esc>
 
 " Alternate files and rspec files
 nmap <Leader>r :A<Cr>
 nmap <Leader>rf :Rfactory<Cr>
 nmap <Leader>R :vsplit<Cr>:A<Cr>
+nmap <Leader>A :vsplit<Cr>:Alternate<CR>
 
 nmap <Leader>n :NERDTreeToggle<Cr>
 
@@ -36,8 +43,12 @@ nmap <Leader>) ysiW)X2w
 nmap <Leader>} ysiW}i#<Esc>
 nmap <Leader>d) ds)i <Esc>
 nmap <Leader># ysiW}i#<Esc>
+nmap <Leader># viw<Leader>#
+vmap <Leader># S}i#<Esc>
 nmap <Leader>: i:<Esc>ysiW]i
-nmap <Leader>" F:xysiw"
+nmap <Leader>" viw<Leader>"
+vmap <Leader>" S"
+nmap <Leader>;: ds]xf=Xr:
 
 " Replace word with paste
 nmap <Leader>vwp viwp
@@ -45,7 +56,15 @@ nmap <Leader>vwp viwp
 " Use macro
 nmap <Leader>1 @q
 nmap <Leader>2 @w
+nmap <Leader>3 @e
+nmap <Leader>4 @r
+nmap <Leader>5 @t
+nmap <Leader>6 @y
+nmap <Leader>7 @u
+nmap <Leader>8 <Leader>Hf{DJd2f:vUf,cl.new(jklx/},<Enter>C),jk
+
 " Copy and paste
+nmap <Leader>cc ggvG cc
 nmap <Leader>ya ggyG
 vnoremap <Leader>cc :%w !pbcopy<cr><cr>
 noremap <Leader>vv o<C-r>*<Esc>
@@ -60,29 +79,12 @@ autocmd VimResized * :wincmd =
 " Vim Markdown Preview
 let vim_markdown_preview_hotkey='<C-m>'
 
-" RSpec.vim mappings
-if expand('%:p') =~ '/automatica/'
-  let g:rspec_command = "VtrSendCommandToRunner! xvfb-run -a rspec {spec} --format doc"
-  map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
-  map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
-else
-  let g:rspec_command = "VtrSendCommandToRunner! bin/rspec {spec} --format doc"
-  map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
-  map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
-end
+let g:rspec_command = "VtrSendCommandToRunner! bin/rspec {spec} --format doc"
+map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
+map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
 map <Leader>l :wa<CR>:call RunLastSpec()<CR>
 map <Leader>a :wa<CR>:call RunAllSpecs()<CR>
-
-function! RunFeatures()
-  :VtrSendCommandToRunner xvfb-run -a bin/rspec spec/features --format doc
-endfunction
-
-function! RunClasses()
-  :VtrSendCommandToRunner xvfb-run -a bin/rspec spec/classes --format doc
-endfunction
-
-command! Rfeat call RunFeatures()
-command! Rclass call RunClasses()
+map <Leader>f :wa<CR>:VtrSendCommandToRunner be rspec --format=doc --only-fail<CR>
 
 " Write all buffers before navigating from Vim to tmux pane
 let g:tmux_navigator_save_on_switch = 2
@@ -96,6 +98,10 @@ nnoremap <leader>fr :VtrFocusRunner<cr>
 nnoremap <Leader>sl :VtrSendLinesToRunner<cr>
 vno  <Leader>sl :VtrSendLinesToRunner<cr>
 nnoremap <leader>vs :VtrSendCommandToRunner<space>
+map <Leader>vl :wa<CR>:VtrSendCommandToRunner VCR_MODE=rec !!<CR>
+map <Leader>vlf :wa<CR>:VtrSendCommandToRunner VCR_MODE=rec !! --only-fail<CR> :VtrSendKeysRaw Enter<CR>
+map <Leader>v2 :VtrAttachToPane 2<CR>
+map <Leader>v3 :VtrAttachToPane 3<CR>
 
 " Run a given vim command on the results of alt from a given path.
 " See usage below.
@@ -115,3 +121,12 @@ set undofile
 set undodir=~/.vim/undodir
 
 let g:ruby_indent_access_modifier_style="indent"
+let g:vimrubocop_config = getcwd() . '/rubocop.yml'
+
+" erb and html filetype settings
+autocmd FileType eruby,html,Jenkinsfile setlocal nowrap colorcolumn=
+
+" settings for faspex-core
+autocmd BufRead,BufNewFile */faspex-core/** setlocal cc=120
+
+let g:AlternateExtensionMappings = [{'.rb': '.html.erb'}, {'.html.erb': '.rb'}]

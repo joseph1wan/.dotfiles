@@ -1,5 +1,23 @@
 setopt auto_cd
-cdpath=($HOME $HOME/docs-dita)
+cdpath=($HOME $HOME/docs-dita $HOME/aspera $HOME/aspera/faspex5 $HOME/aspera/faspex5/faspex-dev-env/repos)
+export GITHUB_USER=jhwan
+export GITHUB_TOKEN=c110846c20615eb5ef8948631e4f5c78f748d55a
+export ZENHUB_TOKEN=01eeb4361cabf5692ab65e98a106ee16aaaf44bac3af4a6157b460dfdd68432019890b204c1d245c
+export GITHUB_PUBLIC_TOKEN=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
+# export FASPEX_DB_HOST="localhost"
+# export FASPEX_DB_PORT="3306"
+# export FASPEX_DB_USERNAME="faspex"
+# export FASPEX_DB_PASSWORD="aspera"
+# export FASPEX_DB_CORE_DATABASE="faspex"
+# export FASPEX_CORE_ADMIN_EMAIL="jhwan@us.ibm.com"
+# # export CORE_CONTAINER_MYSQL_PASSWORD=aspera
+# export FASPEX_CORE_SECRET='5ebd02a15e8316b34cdeeff8ae39ebf6f40dd8f6c1452307db68a9604184c047aa4ab2533d5073a8ea08788aad68195c39d63bb07a7e65eb37852d64aa8708c9'
+# export FASPEX_CORE_OLD_SECRET='5ebd02a15e8316b34cdeeff8ae39ebf6f40dd8f6c1452307db68a9604184c047aa4ab2533d5073a8ea08788aad68195c39d63bb07a7e65eb37852d64aa8708c9'
+export GITHUB_PUBLIC_TOKEN=a870fe5aa0cc3e1f89b7869e0244912dab0c3872
+export GOPATH=~/go
+export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
+
+
 
 source /usr/local/share/antigen/antigen.zsh
 
@@ -33,6 +51,8 @@ antigen apply
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 eval "$(rbenv init - zsh)"
 export PATH="$HOME/.rbenv/bin:$PATH"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_241.jdk/Contents/Home"
+export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home"
+
+eval $(heroku autocomplete:script zsh)
 
 eval "$(direnv hook zsh)"
