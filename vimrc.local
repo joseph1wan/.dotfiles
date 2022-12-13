@@ -7,10 +7,10 @@ set tags^=./.git/tags
 " Key mappings
 ino jk <esc>
 cno jk <c-c>
-cno <C-h> <Left>
-cno <C-j> <Down>
-cno <C-k> <Up>
-cno <C-l> <Right>
+noremap <A-h> <Left>
+noremap <A-j> <Down>
+noremap <C-k> <Up>
+noremap <C-l> <Right>
 vno v <esc>
 nmap <Leader>- :split<Cr>
 nmap <Leader>\ :vsplit<Cr>
@@ -19,6 +19,7 @@ nmap <Leader>\ :vsplit<Cr>
 nmap <Leader>o mao<Esc>'a
 nmap <Leader>O maO<Esc>'a
 nmap <Leader>D mq$x`q
+nmap <Leader>dt d
 nmap <Leader>ll mkgg=G'k
 noremap <Leader>i mki <Esc>
 nmap <Leader>H ^
@@ -38,7 +39,7 @@ nmap <Leader>A :vsplit<Cr>:Alternate<CR>
 
 nmap <Leader>n :NERDTreeToggle<Cr>
 
-" Braces and parens
+" Braces and parens and symbols
 nmap <Leader>) ysiW)X2w
 nmap <Leader>} ysiW}i#<Esc>
 nmap <Leader>d) ds)i <Esc>
@@ -49,6 +50,9 @@ nmap <Leader>: i:<Esc>ysiW]i
 nmap <Leader>" viw<Leader>"
 vmap <Leader>" S"
 nmap <Leader>;: ds]xf=Xr:
+nmap <Leader>:> ysiw'f:cw =><Esc>
+nmap <Leader>': ds'elcf>:<Esc>
+nmap <Leader>": ds'elcf>:<Esc>
 
 " Replace word with paste
 nmap <Leader>vwp viwp
@@ -69,6 +73,9 @@ nmap <Leader>ya ggyG
 vnoremap <Leader>cc :%w !pbcopy<cr><cr>
 noremap <Leader>vv o<C-r>*<Esc>
 imap π <C-r>"
+
+" Comment out test
+nmap <Leader>9 / do<CR>d%gcc
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
@@ -119,14 +126,23 @@ nnoremap <leader>. :w<cr>:call AltCommand(expand('%'),':e')<cr>
 
 set undofile
 set undodir=~/.vim/undodir
+set formatoptions-=tc
 
 let g:ruby_indent_access_modifier_style="indent"
 let g:vimrubocop_config = getcwd() . '/rubocop.yml'
 
 " erb and html filetype settings
-autocmd FileType eruby,html,Jenkinsfile setlocal nowrap colorcolumn=
+autocmd FileType eruby,html,Jenkinsfile setlocal cc=
+autocmd FileType sh setlocal formatoptions-=tc cc=
 
 " settings for faspex-core
 autocmd BufRead,BufNewFile */faspex-core/** setlocal cc=120
+
+autocmd BufRead,BufNewFile .html setlocal nowrap cc= formatoptions-=tc textwidth=0
+autocmd BufRead,BufNewFile .envrc setlocal nowrap cc= formatoptions-=tc textwidth=0
+autocmd BufRead,BufNewFile .json setlocal nowrap cc= formatoptions-=tc textwidth=0
+autocmd BufRead,BufNewFile .txt setlocal nowrap cc= formatoptions-=tc textwidth=0
+autocmd BufRead,BufNewFile .md setlocal nowrap cc= formatoptions-=tc textwidth=0
+autocmd BufRead,BufNewFile .mdx setlocal nowrap cc= formatoptions-=tc textwidth=0
 
 let g:AlternateExtensionMappings = [{'.rb': '.html.erb'}, {'.html.erb': '.rb'}]

@@ -26,6 +26,9 @@ alias vplug='vim ~/dotfiles-local/vimrc.bundles.local'
 alias vtodo="vim ~/Dropbox/todo/todo.txt"
 alias notes='cd ~/Dropbox/notes'
 alias t="todo.sh"
+gsed() {
+  sed -E -i '' "s/$2/$3/g" $(grep -rl $2 $1)
+}
 
 #   -----------------------------
 #   SOURCING FILES
@@ -38,59 +41,54 @@ alias soa='source ~/dotfiles-local/aliases.local; echo "Sourced aliases"'
 #   TESTING
 #   -----------------------------
 
-alias rs='rspec'
-alias rs-o='rspec --only-fail --format doc'
+alias rs='bin/rspec'
+alias rso='bin/rspec --only-fail --format doc'
+alias rso='bin/rspec --only-fail --format doc --fail-fast'
 alias dc="docker-compose"
 alias dcr='docker-compose run --rm runner'
 alias dcb='docker-compose build'
 alias dp='docker container prune'
 alias dexec='docker exec -it '
 alias swag="be rails rswag; be rails swagger:validate"
+alias server="bin/rails s -b ssl://localhost:3001?key=certs/server.key\&cert=certs/server.crt"
 
-#   -----------------------------
-#   INTERNAL TOOLS
-#   -----------------------------
-
-tools_path="~/internal_tools/scripts"
-
-alias lbuild="ruby $tools_path/run_test_build.rb"
-alias update="ruby $tools_path/update_repos.rb"
-alias checkout="ruby $tools_path/checkout_repos.rb"
-alias external="ruby $tools_path/configure_externals.rb"
-
-#   -----------------------------
-#   BUILD SCRIPTS
-#   -----------------------------
-
-alias jbuild="ruby $tools_path/run_builds.rb"
-alias pbuild="g ps; jbuild"
-alias jconf="ruby $tools_path/configure_jenkins_build.rb"
-alias p2prod="ruby $tools_path/push_to_prod.rb"
-
-
-alias gpb="git push; jbuild"
-alias gpbr="git push; jbuild -r"
-gcg(){
-  if [ $# != 2 ]; then
-    echo "Requires two arguments: group and repo_name"
-  else;
-    git clone "git@gitlab.aspera.us:$1/$2.git"
-  fi
+sshr() {
+  ssh "root@$1"
 }
+
+rsc() {
+  echo "Command: bin/rspec $@ $(git ls-files --modified spec)"
+  bin/rspec $@ $(git ls-files --modified spec)
+}
+
+prsc() {
+  echo "Testing:"
+  echo "$(git ls-files --modified spec/rspec)"
+  echo
+  bundle exec parallel_rspec -n 6  --combine-stderr --verbose-command -- $(git ls-files --modified spec/rspec)
+}
+
+alias rpr='bundle exec rspec --only-fail --format doc'
+alias prs='bundle exec parallel_rspec -n 6 --combine-stderr --verbose-command -- spec/rspec spec/integration/external/validate'
+alias prso='bundle exec parallel_rspec -n 6 --combine-stderr
+--verbose-command -- --only-fail -- spec/rspec'
+
+alias lint-swag="be rails rswag; lint-openapi public/aspera/faspex/api/api-docs/v5/swagger.json -sp"
+
 
 #   -----------------------------
 #   GIT ALIASES
 #   -----------------------------
 gbc() {
-  git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s
-  %Cgreen(%cr)%Creset' --abbrev-commit --date=relative $@..$(git rev-parse
-  %--abbrev-ref HEAD)
+  git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative $@..$(git rev-parse %--abbrev-ref HEAD)
 }
 
 gbbc() {
-  git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s
-  %Cgreen(%cr)%Creset' --abbrev-commit --date=relative $(git rev-parse
-  %--abbrev-ref HEAD)..$@
+  git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative $(git rev-parse %--abbrev-ref HEAD)..$@
+}
+
+gpd() {
+  g ps; g co -; g m -; g ps; g co -
 }
 
 #   -----------------------------
@@ -119,18 +117,8 @@ build_pipe(){
   "docker build --build-arg VAULT_ADDR=https://vault.aspera.us --build-arg VAULT_TOKEN=$(vault token lookup -address https://vault.aspera.us -format json | jq -r '.data.id') -t ue-pipeline-builder ."
 }
 
-build_kc(){
-  version=$(git rev-parse --abbrev-ref HEAD)
-  ue-build pipeline kc_build $version linux $1
-}
-
 alias python="python3"
 alias pip="pip3"
-g_pipe(){
-  open http://gitlab.aspera.us/techpubs/$1/pipelines
-}
-
-alias up_tasks="ruby ~/notion-confluence-tasks/update-tasks.rb"
 alias be="bundle exec"
 updatedcs () 
 { 
@@ -140,77 +128,87 @@ updatedcs ()
   popd
 }
 
-cmd_with_env() {
-  FASPEX_CORE_SECRET='5ebd02a15e8316b34cdeeff8ae39ebf6f40dd8f6c1452307db68a9604184c047aa4ab2533d5073a8ea08788aad68195c39d63bb07a7e65eb37852d64aa8708c9' FASPEX_CORE_OLD_SECRET='5ebd02a15e8316b34cdeeff8ae39ebf6f40dd8f6c1452307db68a9604184c047aa4ab2533d5073a8ea08788aad68195c39d63bb07a7e65eb37852d64aa8708c9' FASPEX_DB_HOST="localhost" FASPEX_DB_PORT="3306" FASPEX_DB_USERNAME="faspex" FASPEX_DB_PASSWORD="aspera" FASPEX_DB_CORE_DATABASE="faspex" FASPEX_CORE_ADMIN_EMAIL="jhwan@us.ibm.com" $1 $2 $3 $4 $5
-}
+alias reload_db="cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-db; make down; rm -rf ~/aspera/faspex5/faspex-dev-env/repos/faspex-db/conf ~/aspera/faspex5/faspex-dev-env/repos/faspex-db/data; make; cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-core; make create; make load; make seed"
+alias start_db="cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-db; make; cd -"
 
-rspec_swag() {
-  FASPEX_CORE_SECRET='5ebd02a15e8316b34cdeeff8ae39ebf6f40dd8f6c1452307db68a9604184c047aa4ab2533d5073a8ea08788aad68195c39d63bb07a7e65eb37852d64aa8708c9' FASPEX_CORE_OLD_SECRET='5ebd02a15e8316b34cdeeff8ae39ebf6f40dd8f6c1452307db68a9604184c047aa4ab2533d5073a8ea08788aad68195c39d63bb07a7e65eb37852d64aa8708c9' FASPEX_DB_HOST="localhost" FASPEX_DB_PORT="3306" FASPEX_DB_USERNAME="faspex" FASPEX_DB_PASSWORD="aspera" FASPEX_DB_CORE_DATABASE="faspex" FASPEX_CORE_ADMIN_EMAIL="jhwan@us.ibm.com" rspec spec/rspec/lib/swagger
-}
-
-load_faspex_env() {
-  FX_REPOS=~/aspera/faspex5/faspex-dev-env/repos
-  DB_REPO="$FX_REPOS/faspex-db"
-  CORE_REPO="$FX_REPOS/faspex-core"
-  DB_HOST=`cat $DB_REPO/.env | grep "^FASPEX_DB_HOST" | cut -d'=' -f2 | sed "s/db/127.0.0.1/g"`
-  DB_PORT=`cat $DB_REPO/.env | grep "^FASPEX_DB_PORT" | cut -d'=' -f2`
-  DB_USER=`cat $DB_REPO/.env | grep "^FASPEX_DB_USERNAME" | cut -d'=' -f2`
-  DB_PASS=`cat $DB_REPO/.env | grep "^FASPEX_DB_PASSWORD" | cut -d'=' -f2`
-  DB_ROOT_PASS=`cat $DB_REPO/.env | grep "^FASPEX_DB_ROOT_PASSWORD" | cut -d'=' -f2`
-  DB=`cat $DB_REPO/.env | grep "^FASPEX_DB_CORE_DATABASE" | cut -d'=' -f2`
-  CLIENT=`cat $CORE_REPO/.env | grep "^FASPEX_CORE_UI_CLIENT_ID" | cut -d'=' -f2`
-  SECRET=`cat $CORE_REPO/.env | grep "^FASPEX_CORE_SECRET" | cut -d'=' -f2`
-  URL=`cat $CORE_REPO/.env | grep "^FASPEX_CORE_URL" | cut -d'=' -f2`
-
-  # Redoc variables
-  REDOC_BUILDS=webapps-redoc-builds
-  SWAGGER_PATH=public/aspera/faspex/api/api-docs/v5/swagger.json
-  PATTERN="spec/integration"
-
-  # Bulk variable loading command
-  export FASPEX_DB_HOST=${DB_HOST} FASPEX_DB_PORT=${DB_PORT} FASPEX_DB_USERNAME=${DB_USER} FASPEX_DB_PASSWORD=${DB_PASS} FASPEX_DB_CORE_DATABASE=${DB} FASPEX_CORE_SECRET=${SECRET} FASPEX_CORE_ADMIN_EMAIL="aspera@us.ibm.com" FASPEX_CORE_ADMIN_PASSWORD=${DB_PASS} FASPEX_CORE_ADMIN_PASSWORD_CONFIRMATION=${DB_PASS} FASPEX_CORE_UI_CLIENT_ID=${CLIENT} FASPEX_CORE_URL=${URL} FASPEX_CORE_SECRET=${SECRET} LOAD_DB_ROOT=${LOAD} FASPEX_DB_USERNAME=root FASPEX_DB_PASSWORD=${DB_ROOT_PASS}
-
-  export FASPEX_CORE_SECRET=SECRETSECRETSECRETSECRETSECRETSECRET
-  export FASPEX_CORE_OLD_SECRET=SECRETSECRETSECRETSECRETSECRETSECRET
+load_core_env() {
+  source "$HOME/scripts/core_env_vars.sh"
 }
 
 load_service_env() {
-  export FASPEX_DB_HOST="localhost"
-  export FASPEX_DB_PORT="3306"
-  export FASPEX_DB_USERNAME="faspex"
-  export FASPEX_DB_PASSWORD="aspera"
-  export FASPEX_SERVICE_CORE_HOST=http://127.0.0.1
-  export FASPEX_CORE_PORT=3000
-  export FASPEX_SERVICE_PORT=6000
-  export FASPEX_CORE_SECRET=SECRETSECRETSECRETSECRETSECRETSECRET
-  export FASPEX_CORE_OLD_SECRET=SECRETSECRETSECRETSECRETSECRETSECRET
-  export FASPEX_SERVICE_CLIENT_ID=146868f5-78b6-4ae2-985d-80c14aad4fa8
-  export FASPEX_SERVICE_CLIENT_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----
-MIIEowIBAAKCAQEAxR/yPaHeS6fNGs5oHX+f/WDmb4DEZofBSGBozrD5yn6UyUQM
-dLg0FG43kvBFMMsTll98LLLG5RyLIYuNoSXf5h60+G+8D09SJv4xCYdb0vf6+9Bl
-xkQ282IhuePy9PDA8FvI5THlPXK3SgnkSaSajnHXofqivVyrCqc9sav5zzrG5JFZ
-fNsCxpmzVtLmVE71oI2qA4Zm9JMFZBSutBLnGuyCzhxftdQl0UeryW+V+QXLuldX
-vXlzRn815JvLBSfRP2e2n90ENhUC8jy6fJOUstTH41Bf00SscYkEEGl6UKU/z939
-6kJuXq1zhpkvWV5eFO6ELLxrcnYvkPnrDg2j2QIDAQABAoIBAFfpw3NROX6sO4D1
-BOIDBStPh/W6i9zeNok81gE4VG7GvTx1qMh1TmS+MvLJTVJRf07VDuAwaxvK+xHe
-1y9DYPOURkl2K3z4dz8EpoIFaCJSjhC4BGvECG3LGhd5XeV3adTIWnQ9KGubObs/
-Zhyh2HwmsXCAAwxIw89gftc6R5LvbzuAl8MqyZiQptB3G2z3VVzTv9ZiUgEMd8gt
-WxBdajq/oNTFLjNyo2Nssz1bSgCJiKcstXBLBmWsGN5OS8WHVubSXfJyrt92BpM4
-Uf9fSYBQgl/Kfvk72FvvZBIe9DLnx8W8Cm9IAVBRgI7/VJUPmANsx81YmdgzM52g
-v8pdesECgYEA6Ofa0meB6lFzTECK2APvjR1Fohp0oPM6jB+uvJQoqy15yPwnzjdI
-JrIYzYSVQgA/0eIdlWLWbTzVJdhsgsgy+T6zt4uLIW/F0rjQHNWExdOnSou+Q0Q9
-o7PMXbOWp315zDCk7WiI2VRZWtJ9SpIe0FwFdHpqWaL5AlM8xHYN0LUCgYEA2KvR
-pq/dWHjYEfFEjapIeZvC0oiZddDe5TQ8t2QfrLQUamR9G7yNILy79yknM0AttDBl
-gy1nFyDwz5jtXQPtaZ+3JI9AdkC2oOuxB0AdMyUo6Voe5IFW1GakcNDnFqLbVqKE
-kC4KTCFAbypRU1hTg5sWt/NXgc9f7JgyHq8BkRUCgYEAze+UkM5tFR8H77hyDCcO
-vZvQYlE6JsZqUlQBUUU/4HvJX2l2WOSQq4Z2X+KHh2BpDc/9kIVgTB6p6VjAObOD
-PteuWPDOCLaoGHbJrXUufS10knmVtiy0w/bLEV8mKtrLwzyP2EvCFUh76c6Mck9Z
-Z6q2OBO1zaRIwUGQTbaE6LECgYBk98x+7L0tGUM3OUNE8PFNGjSzf0xkBq2YCbux
-ikroZBKPcbyLTFZHxyugheDqlSG3MkZb1rCPqp4NX6pdChN8gR0LQGY9tPJmEu8v
-/cSdrNdfxstWmJ8p45sFp5PIjKPBv4Ie3hWWXHh2VTYIrMReM8tmdVN1/nko+9N/
-UPZd8QKBgCoxOaZBPGWzvncMsPOyUSSbIDL51oPbdxOu+9Q4YQelDx3ANCDoLKuZ
-clzcAYdcUQUr9QoAh3n+w2y30it5+PO6hyrQU0GvSwzZCtiaQSy/xyxFgiMVDsMW
-udVlDF+ZlTudTXffWKhIPVlk5XtkDkjGJXnomZzu6Vr2wB1X+roo
------END RSA PRIVATE KEY-----"
-  export FASPEX_DB_CORE_DATABASE="faspex"
+  source "$HOME/scripts/service_env_vars.sh" $DOCKER
+}
+
+cfg_core() {
+  source "$HOME/scripts/local_faspex.sh"
+  configure_core
+}
+
+
+# HTTP Testing functions
+read_tmp() {
+  echo "Server: $TMP_SERVER"
+  echo "Token: $TMP_BEARER_TOKEN"
+}
+
+set_token() {
+  export TMP_BEARER_TOKEN=$(pbpaste)
+  read_tmp
+}
+
+set_server() {
+  case "$1" in
+    local) export TMP_SERVER="https://localhost:3001/aspera/faspex/api/v5";;
+    ibm) export TMP_SERVER="https://ue-faspex51.fyre.ibm.com/aspera/faspex/api/v5";;
+    *) export TMP_SERVER="$1";;
+  esac
+  read_tmp
+}
+
+
+h() {
+  echo $debug
+  if [[ ! -z $2 && "GET PUT POST" =~ $2 ]]; then
+    endpoint="$1"
+    method="$2"
+    shift
+    shift
+
+    echo "http $debug --verify=no -A bearer -a \$TMP_BEARER_TOKEN $method \$TMP_SERVER/$endpoint $*" | pbcopy
+  else
+    endpoint="$1"
+    shift
+    args=$@
+
+    http --verify=no -A bearer -a "$TMP_BEARER_TOKEN" "$TMP_SERVER/$endpoint" $args
+  fi
+}
+
+cpub_serv() {
+  cluster="$1"
+  ssh "$cluster" "echo $(cat ~/.ssh/id_rsa.pub) >> ~/.ssh/authorized_keys"
+}
+
+f5_local_dev() {
+  action="$1"
+
+  case "$action" in
+    setup) 
+      if [[ ! -f src/helpers/helpers.tsx.bak ]]; then
+        cp src/helpers/helpers.tsx src/helpers/helpers.tsx.bak
+      fi
+      sed -E 's/\${window.location.origin}/https:\/\/localhost:3001/g' src/helpers/helpers.tsx.bak > src/helpers/helpers.tsx.tmp
+      sed -E 's/redirect_uri:.*3001/redirect_uri: \`https:\/\/localhost:3000/g' src/helpers/helpers.tsx.tmp > src/helpers/helpers.tsx
+      rm src/helpers/helpers.tsx.tmp
+
+      if [[ ! -f public/config.js.bak ]]; then
+        cp public/config.js public/config.js.bak
+      fi
+      sed -E 's/%FASPEX_CORE_UI_CLIENT_ID%/faspex-frontend-client-id/g' public/config.js.bak > public/config.js
+      ;;
+    reset) 
+      cp src/helpers/helpers.tsx.bak src/helpers/helpers.tsx
+      cp public/config.js.bak public/config.js
+      ;;
+  esac
 }

@@ -15,6 +15,7 @@ email = jhwan@us.ibm.com
   pr = pull --rebase
   ps = push
   b = branch
+  bl = branches
   ba = branch -a
   cfd = clean -fd
   m = merge
