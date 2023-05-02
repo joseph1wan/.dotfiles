@@ -3,6 +3,11 @@ set ignorecase
 set scrolloff=5
 set relativenumber
 set tags^=./.git/tags
+let g:ale_set_highlights = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
+let g:ale_liners_ignore = {'ruby': ['rubocop']}
 
 " Key mappings
 ino jk <esc>
@@ -105,8 +110,7 @@ nnoremap <leader>fr :VtrFocusRunner<cr>
 nnoremap <Leader>sl :VtrSendLinesToRunner<cr>
 vno  <Leader>sl :VtrSendLinesToRunner<cr>
 nnoremap <leader>vs :VtrSendCommandToRunner<space>
-map <Leader>vl :wa<CR>:VtrSendCommandToRunner VCR_MODE=rec !!<CR>
-map <Leader>vlf :wa<CR>:VtrSendCommandToRunner VCR_MODE=rec !! --only-fail<CR> :VtrSendKeysRaw Enter<CR>
+map <Leader>r :wa<CR>:VtrSendCommandToRunner !! --only-fail<CR>
 map <Leader>v2 :VtrAttachToPane 2<CR>
 map <Leader>v3 :VtrAttachToPane 3<CR>
 

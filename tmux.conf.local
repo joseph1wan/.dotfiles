@@ -15,6 +15,9 @@ bind -n C-Right resize-pane -R 10
 bind -n C-Down resize-pane -D 5
 bind -n C-Up resize-pane -U 5
 
+# Kill window
+bind BSpace killw
+
 bind c new-window -c '#{pane_current_path}'
 
 set-option -g base-index 1

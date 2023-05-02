@@ -4,28 +4,20 @@
 
 alias l='ls'
 alias cda='cd ~/aspera_tools'
-alias cdm='cd ~/automatica'
 alias cdd='cd ~/dotfiles'
 alias cdl='cd ~/dotfiles-local'
-alias cdb='cd ~/aspera_tools/docs-build'
-alias docs='cd ~/aspera_tools/docs-dita'
-alias tx='tmuxinator'
-jira(){
-  open "https://jira.aspera.us/browse/$1"
-}
+alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
 
 #   -----------------------------
 #   EDIT FILES
 #   -----------------------------
 
+alias vim='re=1 vim'
 alias vzs="vim ~/dotfiles-local/zshrc.local"
 alias al='vim ~/dotfiles-local/aliases.local'
 alias vgc='vim ~/dotfiles-local/gitconfig.local'
 alias vrc='vim ~/dotfiles-local/vimrc.local'
 alias vplug='vim ~/dotfiles-local/vimrc.bundles.local'
-alias vtodo="vim ~/Dropbox/todo/todo.txt"
-alias notes='cd ~/Dropbox/notes'
-alias t="todo.sh"
 gsed() {
   sed -E -i '' "s/$2/$3/g" $(grep -rl $2 $1)
 }
@@ -49,11 +41,10 @@ alias dcr='docker-compose run --rm runner'
 alias dcb='docker-compose build'
 alias dp='docker container prune'
 alias dexec='docker exec -it '
-alias swag="be rails rswag; be rails swagger:validate"
 alias server="bin/rails s -b ssl://localhost:3001?key=certs/server.key\&cert=certs/server.crt"
 
 sshr() {
-  ssh "root@$1"
+  ssh "root@""$1""1.fyre.ibm.com"
 }
 
 rsc() {
@@ -131,17 +122,16 @@ updatedcs ()
 alias reload_db="cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-db; make down; rm -rf ~/aspera/faspex5/faspex-dev-env/repos/faspex-db/conf ~/aspera/faspex5/faspex-dev-env/repos/faspex-db/data; make; cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-core; make create; make load; make seed"
 alias start_db="cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-db; make; cd -"
 
-load_core_env() {
-  source "$HOME/scripts/core_env_vars.sh"
-}
-
-load_service_env() {
-  source "$HOME/scripts/service_env_vars.sh" $DOCKER
-}
+FX_REPOS=~/aspera/faspex5/faspex-dev-env/repos
+DB_REPO="$FX_REPOS/faspex-db"
+CORE_REPO="$FX_REPOS/faspex-core"
 
 cfg_core() {
-  source "$HOME/scripts/local_faspex.sh"
-  configure_core
+  cd "$CORE_REPO/src"
+  update_client_cmd='OAuthClient.find_by(name: "faspex-frontend").update redirect_uris: ["https://localhost:3000/aspera/faspex/token", "https://dev.faspex5.com:3000/aspera/faspex/token"]'
+  set_default_node_cmd='if Node.count.zero?; node = FactoryBot.create(:node, name: "Default", host: "9.30.192.82", api_username: "nodeadmin", api_password: "aspera", encrypted_api_password: nil); share = FactoryBot.create(:share, node: node); FaspexConfig::Share[:default_destination_id] = share.id; end'
+  bin/rails runner "$update_client_cmd"
+  bin/rails runner "$set_default_node_cmd"
 }
 
 
@@ -189,7 +179,7 @@ cpub_serv() {
   ssh "$cluster" "echo $(cat ~/.ssh/id_rsa.pub) >> ~/.ssh/authorized_keys"
 }
 
-f5_local_dev() {
+cfg_ui() {
   action="$1"
 
   case "$action" in
@@ -197,9 +187,10 @@ f5_local_dev() {
       if [[ ! -f src/helpers/helpers.tsx.bak ]]; then
         cp src/helpers/helpers.tsx src/helpers/helpers.tsx.bak
       fi
-      sed -E 's/\${window.location.origin}/https:\/\/localhost:3001/g' src/helpers/helpers.tsx.bak > src/helpers/helpers.tsx.tmp
-      sed -E 's/redirect_uri:.*3001/redirect_uri: \`https:\/\/localhost:3000/g' src/helpers/helpers.tsx.tmp > src/helpers/helpers.tsx
-      rm src/helpers/helpers.tsx.tmp
+      sed -E "s/return window.location.host.*/return true;/g" src/helpers/helpers.tsx.bak > src/helpers/helpers.tsx.tmp2
+      sed -E "s/ansible.*/localhost:3001';/g" src/helpers/helpers.tsx.tmp2 > src/helpers/helpers.tsx.tmp3
+      sed -E "s/5ffa59f3-5e22-476b-af8d-388e34075837/faspex-frontend-client-id/g" src/helpers/helpers.tsx.tmp3 > src/helpers/helpers.tsx
+      rm src/helpers/helpers.tsx.tmp*
 
       if [[ ! -f public/config.js.bak ]]; then
         cp public/config.js public/config.js.bak
@@ -207,8 +198,25 @@ f5_local_dev() {
       sed -E 's/%FASPEX_CORE_UI_CLIENT_ID%/faspex-frontend-client-id/g' public/config.js.bak > public/config.js
       ;;
     reset) 
-      cp src/helpers/helpers.tsx.bak src/helpers/helpers.tsx
-      cp public/config.js.bak public/config.js
+      mv src/helpers/helpers.tsx.bak src/helpers/helpers.tsx
+      mv public/config.js.bak public/config.js
       ;;
   esac
+}
+
+gen_token() {
+  pass="$1"
+  cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-core/src
+  if [[ "$pass" == "aspera" ]]; then
+    bin/rails bearer:generate'[aspera@us.ibm.com,aspera]'
+  else
+    bin/rails bearer:generate'[aspera@us.ibm.com,Aspera123_]'
+  fi
+  cp tmp_bearer_token ~/aspera-tools/faspex5-integration-app/tmp/access_token.txt
+  cd -
+}
+
+sshfyre() {
+  name="$1"
+  ssh root@"$name"1.fyre.ibm.com
 }
