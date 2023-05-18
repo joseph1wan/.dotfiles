@@ -7,7 +7,6 @@ let g:ale_set_highlights = 0
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_insert_leave = 0
-let g:ale_liners_ignore = {'ruby': ['rubocop']}
 
 " Key mappings
 ino jk <esc>
@@ -77,19 +76,12 @@ nmap <Leader>cc ggvG cc
 nmap <Leader>ya ggyG
 vnoremap <Leader>cc :%w !pbcopy<cr><cr>
 noremap <Leader>vv o<C-r>*<Esc>
-imap π <C-r>"
-
-" Comment out test
-nmap <Leader>9 / do<CR>d%gcc
 
 " bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
-
-" Vim Markdown Preview
-let vim_markdown_preview_hotkey='<C-m>'
 
 let g:rspec_command = "VtrSendCommandToRunner! bin/rspec {spec} --format doc"
 map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
@@ -138,9 +130,6 @@ let g:vimrubocop_config = getcwd() . '/rubocop.yml'
 " erb and html filetype settings
 autocmd FileType eruby,html,Jenkinsfile setlocal cc=
 autocmd FileType sh setlocal formatoptions-=tc cc=
-
-" settings for faspex-core
-autocmd BufRead,BufNewFile */faspex-core/** setlocal cc=120
 
 autocmd BufRead,BufNewFile .html setlocal nowrap cc= formatoptions-=tc textwidth=0
 autocmd BufRead,BufNewFile .envrc setlocal nowrap cc= formatoptions-=tc textwidth=0

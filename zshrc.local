@@ -1,14 +1,6 @@
 setopt auto_cd
-cdpath=($HOME $HOME/docs-dita $HOME/aspera $HOME/aspera/faspex5 $HOME/aspera/faspex5/faspex-dev-env/repos $HOME/aspera-tools)
 
-export GITHUB_USER=jhwan
-export GITHUB_TOKEN=c110846c20615eb5ef8948631e4f5c78f748d55a
-export ZENHUB_TOKEN=01eeb4361cabf5692ab65e98a106ee16aaaf44bac3af4a6157b460dfdd68432019890b204c1d245c
-export GITHUB_PUBLIC_TOKEN=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
-export GITHUB_PUBLIC_TOKEN=a870fe5aa0cc3e1f89b7869e0244912dab0c3872
 export GOPATH=~/go
-export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/
-export ocr_api_key=K89707448588957
 
 source /usr/local/share/antigen/antigen.zsh
 
@@ -23,7 +15,6 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 # Load the theme
 antigen theme denysdovhan/spaceship-prompt
 
-
 ### Fix slowness of pastes with zsh-syntax-highlighting.zsh
 pasteinit() {
   OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
@@ -34,7 +25,6 @@ pastefinish() {
 }
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
-### Fix slowness of pastes
 
 # Tell antigen that you're done
 antigen apply
@@ -42,7 +32,5 @@ antigen apply
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 eval "$(rbenv init - zsh)"
 export PATH="$HOME/.rbenv/bin:$PATH"
-export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home"
 
 eval "$(direnv hook zsh)"
-

@@ -3,7 +3,6 @@
 #   -----------------------------
 
 alias l='ls'
-alias cda='cd ~/aspera_tools'
 alias cdd='cd ~/dotfiles'
 alias cdl='cd ~/dotfiles-local'
 alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
@@ -43,29 +42,10 @@ alias dp='docker container prune'
 alias dexec='docker exec -it '
 alias server="bin/rails s -b ssl://localhost:3001?key=certs/server.key\&cert=certs/server.crt"
 
-sshr() {
-  ssh "root@""$1""1.fyre.ibm.com"
-}
-
 rsc() {
   echo "Command: bin/rspec $@ $(git ls-files --modified spec)"
   bin/rspec $@ $(git ls-files --modified spec)
 }
-
-prsc() {
-  echo "Testing:"
-  echo "$(git ls-files --modified spec/rspec)"
-  echo
-  bundle exec parallel_rspec -n 6  --combine-stderr --verbose-command -- $(git ls-files --modified spec/rspec)
-}
-
-alias rpr='bundle exec rspec --only-fail --format doc'
-alias prs='bundle exec parallel_rspec -n 6 --combine-stderr --verbose-command -- spec/rspec spec/integration/external/validate'
-alias prso='bundle exec parallel_rspec -n 6 --combine-stderr
---verbose-command -- --only-fail -- spec/rspec'
-
-alias lint-swag="be rails rswag; lint-openapi public/aspera/faspex/api/api-docs/v5/swagger.json -sp"
-
 
 #   -----------------------------
 #   GIT ALIASES
@@ -82,141 +62,6 @@ gpd() {
   g ps; g co -; g m -; g ps; g co -
 }
 
-#   -----------------------------
-#   TESTING DC UE
-#   -----------------------------
-# dbuild(){
-#   if [[ $2 == "+token" ]]; then
-#     echo "docker build with UE_TOKEN"
-#     bundle
-#     docker build --build-arg UE_TOKEN='Cbpx87BSrnxnbNaqbHZq' -t $1 .
-#   else
-#     bundle
-#     docker build -t $1 .
-#   fi
-# }
-alias ue-dm="docker run --rm --name dm -v docs-dita:/root/docs-dita -p 9494:9494 --link redis:redis ue-docs-manager"
-alias ue-dm-sk="docker exec -it dm bin/sidekiq -r /app/docs_manager_server.rb"
-alias ue-redis="docker run --rm -p 6379:6379 --name redis redis:alpine3.10 -d"
-alias d-ue-b="docker run --rm -it --name ubs -p 9393:9393 -v ue-dita-ot:/root/ue-dita-ot --network=ue-test ue-build-server"
-alias dcudev="docker-compose -f dev-docker-compose.yml up"
-alias dr="docker run --rm -it"
-alias ue-dm="docker run --rm -it --link redis:redis -p 9494:9494 ue-docs-manager"
-alias ue-bs="docker run --rm -it --link redis:redis -p 9393:9393 ue-build-server"
-alias dbuild="docker build -t"
-build_pipe(){
-  "docker build --build-arg VAULT_ADDR=https://vault.aspera.us --build-arg VAULT_TOKEN=$(vault token lookup -address https://vault.aspera.us -format json | jq -r '.data.id') -t ue-pipeline-builder ."
-}
-
 alias python="python3"
 alias pip="pip3"
 alias be="bundle exec"
-updatedcs () 
-{ 
-  pushd ~/Downloads;
-  curl "http://rtpgsa.ibm.com/~ditatool/public/DCSInstaller.jar" -O;
-  java -jar DCSInstaller.jar;
-  popd
-}
-
-alias reload_db="cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-db; make down; rm -rf ~/aspera/faspex5/faspex-dev-env/repos/faspex-db/conf ~/aspera/faspex5/faspex-dev-env/repos/faspex-db/data; make; cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-core; make create; make load; make seed"
-alias start_db="cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-db; make; cd -"
-
-FX_REPOS=~/aspera/faspex5/faspex-dev-env/repos
-DB_REPO="$FX_REPOS/faspex-db"
-CORE_REPO="$FX_REPOS/faspex-core"
-
-cfg_core() {
-  cd "$CORE_REPO/src"
-  update_client_cmd='OAuthClient.find_by(name: "faspex-frontend").update redirect_uris: ["https://localhost:3000/aspera/faspex/token", "https://dev.faspex5.com:3000/aspera/faspex/token"]'
-  set_default_node_cmd='if Node.count.zero?; node = FactoryBot.create(:node, name: "Default", host: "9.30.192.82", api_username: "nodeadmin", api_password: "aspera", encrypted_api_password: nil); share = FactoryBot.create(:share, node: node); FaspexConfig::Share[:default_destination_id] = share.id; end'
-  bin/rails runner "$update_client_cmd"
-  bin/rails runner "$set_default_node_cmd"
-}
-
-
-# HTTP Testing functions
-read_tmp() {
-  echo "Server: $TMP_SERVER"
-  echo "Token: $TMP_BEARER_TOKEN"
-}
-
-set_token() {
-  export TMP_BEARER_TOKEN=$(pbpaste)
-  read_tmp
-}
-
-set_server() {
-  case "$1" in
-    local) export TMP_SERVER="https://localhost:3001/aspera/faspex/api/v5";;
-    ibm) export TMP_SERVER="https://ue-faspex51.fyre.ibm.com/aspera/faspex/api/v5";;
-    *) export TMP_SERVER="$1";;
-  esac
-  read_tmp
-}
-
-
-h() {
-  echo $debug
-  if [[ ! -z $2 && "GET PUT POST" =~ $2 ]]; then
-    endpoint="$1"
-    method="$2"
-    shift
-    shift
-
-    echo "http $debug --verify=no -A bearer -a \$TMP_BEARER_TOKEN $method \$TMP_SERVER/$endpoint $*" | pbcopy
-  else
-    endpoint="$1"
-    shift
-    args=$@
-
-    http --verify=no -A bearer -a "$TMP_BEARER_TOKEN" "$TMP_SERVER/$endpoint" $args
-  fi
-}
-
-cpub_serv() {
-  cluster="$1"
-  ssh "$cluster" "echo $(cat ~/.ssh/id_rsa.pub) >> ~/.ssh/authorized_keys"
-}
-
-cfg_ui() {
-  action="$1"
-
-  case "$action" in
-    setup) 
-      if [[ ! -f src/helpers/helpers.tsx.bak ]]; then
-        cp src/helpers/helpers.tsx src/helpers/helpers.tsx.bak
-      fi
-      sed -E "s/return window.location.host.*/return true;/g" src/helpers/helpers.tsx.bak > src/helpers/helpers.tsx.tmp2
-      sed -E "s/ansible.*/localhost:3001';/g" src/helpers/helpers.tsx.tmp2 > src/helpers/helpers.tsx.tmp3
-      sed -E "s/5ffa59f3-5e22-476b-af8d-388e34075837/faspex-frontend-client-id/g" src/helpers/helpers.tsx.tmp3 > src/helpers/helpers.tsx
-      rm src/helpers/helpers.tsx.tmp*
-
-      if [[ ! -f public/config.js.bak ]]; then
-        cp public/config.js public/config.js.bak
-      fi
-      sed -E 's/%FASPEX_CORE_UI_CLIENT_ID%/faspex-frontend-client-id/g' public/config.js.bak > public/config.js
-      ;;
-    reset) 
-      mv src/helpers/helpers.tsx.bak src/helpers/helpers.tsx
-      mv public/config.js.bak public/config.js
-      ;;
-  esac
-}
-
-gen_token() {
-  pass="$1"
-  cd ~/aspera/faspex5/faspex-dev-env/repos/faspex-core/src
-  if [[ "$pass" == "aspera" ]]; then
-    bin/rails bearer:generate'[aspera@us.ibm.com,aspera]'
-  else
-    bin/rails bearer:generate'[aspera@us.ibm.com,Aspera123_]'
-  fi
-  cp tmp_bearer_token ~/aspera-tools/faspex5-integration-app/tmp/access_token.txt
-  cd -
-}
-
-sshfyre() {
-  name="$1"
-  ssh root@"$name"1.fyre.ibm.com
-}
