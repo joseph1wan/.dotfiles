@@ -11,12 +11,16 @@ alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
 #   EDIT FILES
 #   -----------------------------
 
-alias vim='re=1 vim'
-alias vzs="vim ~/dotfiles-local/zshrc.local"
-alias al='vim ~/dotfiles-local/aliases.local'
-alias vgc='vim ~/dotfiles-local/gitconfig.local'
-alias vrc='vim ~/dotfiles-local/vimrc.local'
-alias vplug='vim ~/dotfiles-local/vimrc.bundles.local'
+alias vim='nvim'
+alias vzs="nvim ~/dotfiles-local/zshrc.local"
+alias al='nvim ~/dotfiles-local/aliases.local'
+alias vgc='nvim ~/dotfiles-local/gitconfig.local'
+alias vrc='nvim ~/dotfiles-local/vimrc.local'
+alias vplug='nvim ~/dotfiles-local/vimrc.bundles.local'
+alias vnv='nvim ~/.config/nvim/init.vim'
+alias vpack='nvim ~/.config/nvim/lua/plugins.lua'
+alias vlsp='nvim ~/.config/nvim/lua/lspconfig-setup.lua'
+
 gsed() {
   sed -E -i '' "s/$2/$3/g" $(grep -rl $2 $1)
 }

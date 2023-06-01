@@ -3,6 +3,7 @@ set ignorecase
 set scrolloff=5
 set relativenumber
 set tags^=./.git/tags
+highlight Pmenu ctermbg=gray guibg=gray
 let g:ale_set_highlights = 0
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 0
@@ -28,6 +29,7 @@ nmap <Leader>ll mkgg=G'k
 noremap <Leader>i mki <Esc>
 nmap <Leader>H ^
 nmap <Leader>L $
+nmap Y yy
 
 " File manipulation
 nmap <Leader>w :wa<Cr>
@@ -43,8 +45,6 @@ nmap <Leader>A :vsplit<Cr>:Alternate<CR>
 
 nmap <Leader>n :NERDTreeToggle<Cr>
 
-" Braces and parens and symbols
-nmap <Leader>) ysiW)X2w
 nmap <Leader>} ysiW}i#<Esc>
 nmap <Leader>d) ds)i <Esc>
 nmap <Leader># ysiW}i#<Esc>
@@ -137,5 +137,8 @@ autocmd BufRead,BufNewFile .json setlocal nowrap cc= formatoptions-=tc textwidth
 autocmd BufRead,BufNewFile .txt setlocal nowrap cc= formatoptions-=tc textwidth=0
 autocmd BufRead,BufNewFile .md setlocal nowrap cc= formatoptions-=tc textwidth=0
 autocmd BufRead,BufNewFile .mdx setlocal nowrap cc= formatoptions-=tc textwidth=0
+
+" set filetypes as typescriptreact
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
 let g:AlternateExtensionMappings = [{'.rb': '.html.erb'}, {'.html.erb': '.rb'}]

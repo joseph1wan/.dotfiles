@@ -1,9 +1,9 @@
 [user]
 # Please adapt and uncomment the following lines:
 name = Joseph Wan
-email = jhwan@us.ibm.com
+email = joseph.h.wan@gmail.com
 [core]
-  excludesfile = /Users/jhwanus.ibm.com/.gitignore_global
+  excludesfile = /Users/josephwan/.gitignore_global
 [alias]
   cob = checkout -b
   cobo = "!f() { (git co -b $1 origin/$1) }; f"
@@ -14,6 +14,10 @@ email = jhwan@us.ibm.com
   p = pull
   pr = pull --rebase
   ps = push
+  r = rebase
+  rc = rebase --continue
+  ra = rebase --abort
+  u = "!f() {  "git branch -u origin/$(git rev-parse --abbrev-ref HEAD)"; }; f"
   b = branch
   bl = branches
   ba = branch -a

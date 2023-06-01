@@ -9,9 +9,17 @@ Plug 'jgdavey/vim-blockle'
 Plug 'junegunn/fzf.vim'
 Plug 'danro/rename.vim'
 Plug 'christoomey/vim-rfactory'
-Plug 'pangloss/vim-javascript'
 Plug 'sukima/xmledit'
 Plug 'ton/vim-alternate'
 Plug 'tpope/vim-endwise'
 Plug 'martinda/Jenkinsfile-vim-syntax'
 Plug 'fatih/vim-go'
+
+" React / Javascript
+" Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+" Plug 'MaxMEllon/vim-jsx-pretty'
+Plug 'peitalin/vim-jsx-typescript'
+
+" Python
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
