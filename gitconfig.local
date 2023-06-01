@@ -1,7 +1,6 @@
 [user]
-# Please adapt and uncomment the following lines:
-name = Joseph Wan
-email = joseph.h.wan@gmail.com
+  name = Joseph Wan
+  email = joseph.h.wan@gmail.com
 [core]
   excludesfile = /Users/josephwan/.gitignore_global
 [alias]
@@ -17,7 +16,7 @@ email = joseph.h.wan@gmail.com
   r = rebase
   rc = rebase --continue
   ra = rebase --abort
-  u = "!f() {  "git branch -u origin/$(git rev-parse --abbrev-ref HEAD)"; }; f"
+  u = "!f() {  "git branch -u origin/$(git rev-parse --abbrev-ref HEAD)"; }; f" # Set upstream to same branch in origin
   b = branch
   bl = branches
   ba = branch -a

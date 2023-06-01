@@ -1,36 +1,36 @@
 #!/usr/bin/ruby
 
-require 'rubygems'
-require 'irb/completion'
-require 'irb/ext/save-history'
+require "rubygems"
+require "irb/completion"
+require "irb/ext/save-history"
 
 # interactive editor: use vim from within irb
 begin
-  require 'interactive_editor'
-rescue LoadError => err
-  warn "Couldn't load interactive_editor: #{err}"
+  require "interactive_editor"
+rescue LoadError => e
+  warn "Couldn't load interactive_editor: #{e}"
 end
 
 # awesome print
 begin
-  require 'awesome_print'
+  require "awesome_print"
   AwesomePrint.irb!
-rescue LoadError => err
-  warn "Couldn't load awesome_print: #{err}"
+rescue LoadError => e
+  warn "Couldn't load awesome_print: #{e}"
 end
 
 # configure irb
 IRB.conf[:PROMPT_MODE] = :SIMPLE
 
 # irb history
-ARGV.concat ['--readline', '--prompt-mode', 'simple']
+ARGV.concat ["--readline", "--prompt-mode", "simple"]
 IRB.conf[:EVAL_HISTORY] = 1000
 IRB.conf[:SAVE_HISTORY] = 1000
-IRB.conf[:HISTORY_FILE] = File.expand_path('~/.irbhistory')
+IRB.conf[:HISTORY_FILE] = File.expand_path("~/.irbhistory")
 
 # load .irbrc_rails in rails environments
-railsrc_path = File.expand_path('~/.irbrc_rails')
-if (ENV['RAILS_ENV'] || defined? Rails) && File.exist?(railsrc_path)
+railsrc_path = File.expand_path("~/.irbrc_rails")
+if (ENV["RAILS_ENV"] || defined? Rails) && File.exist?(railsrc_path)
   begin
     load railsrc_path
   rescue Exception
@@ -39,15 +39,15 @@ if (ENV['RAILS_ENV'] || defined? Rails) && File.exist?(railsrc_path)
 end
 
 # additional methods to Object class
-class Object
-  def interesting_methods
-    case self.class
-    when Class
-      public_methods.sort - Object.public_methods
-    when Module
-      public_methods.sort - Module.public_methods
-    else
-      public_methods.sort - Object.new.public_methods
-    end
-  end
-end
+# class Object
+#   def interesting_methods
+#     case self.class
+#     when Class
+#       public_methods.sort - Object.public_methods
+#     when Module
+#       public_methods.sort - Module.public_methods
+#     else
+#       public_methods.sort - Object.new.public_methods
+#     end
+#   end
+# end

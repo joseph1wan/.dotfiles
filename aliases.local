@@ -1,17 +1,19 @@
 #   -----------------------------
-#   NAVIGATION / MOVEMENT
+#   MOST USED
 #   -----------------------------
 
 alias l='ls'
+alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
+alias vim='nvim'
+alias python="python3"
+alias pip="pip3"
+alias be="bundle exec"
+
+#   -----------------------------
+#   CONFIG FILES
+#   -----------------------------
 alias cdd='cd ~/dotfiles'
 alias cdl='cd ~/dotfiles-local'
-alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
-
-#   -----------------------------
-#   EDIT FILES
-#   -----------------------------
-
-alias vim='nvim'
 alias vzs="nvim ~/dotfiles-local/zshrc.local"
 alias al='nvim ~/dotfiles-local/aliases.local'
 alias vgc='nvim ~/dotfiles-local/gitconfig.local'
@@ -28,14 +30,12 @@ gsed() {
 #   -----------------------------
 #   SOURCING FILES
 #   -----------------------------
-
 alias so='source ~/.zshrc; echo "Sourced .zshrc"'
 alias soa='source ~/dotfiles-local/aliases.local; echo "Sourced aliases"'
 
 #   -----------------------------
 #   TESTING
 #   -----------------------------
-
 alias rs='bin/rspec'
 alias rso='bin/rspec --only-fail --format doc'
 alias rso='bin/rspec --only-fail --format doc --fail-fast'
@@ -44,7 +44,7 @@ alias dcr='docker-compose run --rm runner'
 alias dcb='docker-compose build'
 alias dp='docker container prune'
 alias dexec='docker exec -it '
-alias server="bin/rails s -b ssl://localhost:3001?key=certs/server.key\&cert=certs/server.crt"
+alias server="bin/rails s -b ssl://localhost:3001?key=certs/server.key\&cert=certs/server.crt" # Server with self-signed certs. Requires mkcert
 
 rsc() {
   echo "Command: bin/rspec $@ $(git ls-files --modified spec)"
@@ -61,11 +61,3 @@ gbc() {
 gbbc() {
   git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative $(git rev-parse %--abbrev-ref HEAD)..$@
 }
-
-gpd() {
-  g ps; g co -; g m -; g ps; g co -
-}
-
-alias python="python3"
-alias pip="pip3"
-alias be="bundle exec"

@@ -1,6 +1,5 @@
-Plug 'thoughtbot/vim-rspec'
+" Essential
 Plug 'kana/vim-textobj-user'
-Plug 'nelstrom/vim-textobj-rubyblock'
 Plug 'vim-scripts/vim-auto-save'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-tmux-runner'
@@ -8,18 +7,24 @@ Plug 'christoomey/vim-titlecase'
 Plug 'jgdavey/vim-blockle'
 Plug 'junegunn/fzf.vim'
 Plug 'danro/rename.vim'
-Plug 'christoomey/vim-rfactory'
 Plug 'sukima/xmledit'
 Plug 'ton/vim-alternate'
 Plug 'tpope/vim-endwise'
-Plug 'martinda/Jenkinsfile-vim-syntax'
-Plug 'fatih/vim-go'
+
+" Ruby
+Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'thoughtbot/vim-rspec'
+Plug 'christoomey/vim-rfactory'
 
 " React / Javascript
-" Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
-" Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'peitalin/vim-jsx-typescript'
+
+" Jenkins
+Plug 'martinda/Jenkinsfile-vim-syntax'
+
+" Go
+Plug 'fatih/vim-go'
 
 " Python
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
