@@ -2,7 +2,7 @@ Personal collection of `dotfiles.` Builds on top of [thoughtbot's dotfiles](http
 
 Requires manually symlinking `nvim-local`:
 ```
-rcup
-rm -rf .config/nvim
-ln -s ~/.nvim-local .config/nvim
+rcup # nvim-local gets symlinked to ~/.nvim-local
+rm -rf ~/.config/nvim
+ln -s ~/.nvim-local ~/.config/nvim
 ```
