@@ -30,7 +30,8 @@ zstyle :bracketed-paste-magic paste-finish pastefinish
 antigen apply
 
 export PATH="$PATH":"$HOME/.pub-cache/bin"
+eval "$(pyenv init --path)"
 eval "$(rbenv init - zsh)"
-export PATH="$HOME/.rbenv/bin:$PATH"
+
 
 eval "$(direnv hook zsh)"

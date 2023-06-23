@@ -25,6 +25,3 @@ Plug 'martinda/Jenkinsfile-vim-syntax'
 
 " Go
 Plug 'fatih/vim-go'
-
-" Python
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }

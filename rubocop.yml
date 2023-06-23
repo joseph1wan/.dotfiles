@@ -4,3 +4,5 @@ Layout/IndentationConsistency:
   EnforcedStyle: indented_internal_methods
 Style/IfUnlessModifier:
   Enabled: false
+Layout/LineLength:
+  Max: 100

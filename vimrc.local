@@ -8,6 +8,7 @@ let g:ale_set_highlights = 0
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 0
 let g:ale_lint_on_insert_leave = 0
+set colorcolumn=0
 
 " Key mappings
 ino jk <esc>
@@ -83,7 +84,7 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 
-let g:rspec_command = "VtrSendCommandToRunner! bin/rspec {spec} --format doc"
+let g:rspec_command = "VtrSendCommandToRunner! be rspec {spec} --format doc"
 map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
 map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
 map <Leader>l :wa<CR>:call RunLastSpec()<CR>
@@ -142,3 +143,4 @@ autocmd BufRead,BufNewFile .mdx setlocal nowrap cc= formatoptions-=tc textwidth=
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
 
 let g:AlternateExtensionMappings = [{'.rb': '.html.erb'}, {'.html.erb': '.rb'}]
+let g:pymode_python = 'python3'

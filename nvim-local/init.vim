@@ -7,4 +7,6 @@ lua require("mason-lspconfig").setup()
 lua require('lspconfig-setup')
 lua require('prettier-config')
 
+colorscheme catppuccin
+
 source ~/.vimrc
