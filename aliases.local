@@ -11,9 +11,9 @@ alias be="bundle exec"
 
 readtime() {
   total_time=$(echo "scale=2; $(pbpaste | wc -w) / 183" | bc)
-  hours=$(echo $total_time | cut -d . -f 1)
+  minutes=$(echo $total_time | cut -d . -f 1)
   seconds=$(printf "%.0f"  "$((.$(echo $total_time | cut -d . -f 2)*60))")
-  echo "Est time: $hours hours and $seconds seconds"
+  echo "Est time: $minutes minutes and $seconds seconds"
 }
 
 #   -----------------------------
