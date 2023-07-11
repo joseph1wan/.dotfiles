@@ -1,4 +1,4 @@
-local servers = { "dockerls", "gopls", "graphql", "html", "jsonls", "tsserver", "lua_ls", "pyright", "tailwindcss", "vimls" }
+local servers = { "dockerls", "gopls", "graphql", "html", "jsonls", "tsserver", "lua_ls", "pyright", "tailwindcss", "vimls", "dockerls" }
 
 local DEFAULT_SETTINGS = {
   -- A list of servers to automatically install if they're not already installed. Example: { "rust_analyzer@nightly", "lua_ls" }
