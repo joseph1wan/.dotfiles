@@ -16,6 +16,8 @@ readtime() {
   echo "Est time: $minutes minutes and $seconds seconds"
 }
 
+alias pkey='cat ~/.ssh/id_rsa.pub | pbcopy'
+
 #   -----------------------------
 #   CONFIG FILES
 #   -----------------------------
