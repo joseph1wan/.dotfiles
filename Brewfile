@@ -13,7 +13,5 @@ brew "node"
 brew "python3"
 brew "pipenv"
 brew "uv"
-brew "temurin@11"
-brew "temurin@17"
 
 cask "docker-desktop"
