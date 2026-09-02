@@ -14,7 +14,75 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias -- -="cd -"
 
-# Include custom aliases
-if [[ -f ~/.aliases.local ]]; then
-  source ~/.aliases.local
-fi
+#   -----------------------------
+#   MOST USED
+#   -----------------------------
+
+pipeline_dir="$HOME/autodesk/dpe/dh-beehive-datapipeline"
+testcases_file="$pipeline_dir/aws-assets/lambda/functions/beehive-cicd-smoketesttrigger/SmokeTestCases.json"
+learning_content_dir="$HOME/autodesk/learning-content"
+alias adsk="cd $HOME/autodesk"
+alias l='ls'
+alias als="vim ${DOTFILES_DIR:-$HOME/.dotfiles}/adsk.sh"
+# alias ls='ls -1'
+alias download="cd ~/Downloads"
+alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
+alias vim='nvim'
+alias python="python3"
+alias pip="pip3"
+alias be="bundle exec"
+alias akn="cd ~/autodesk/learning-content/AKNTest"
+alias bhv="cd ~/autodesk/dpe/dh-beehive"
+alias pipeline="cd $pipeline_dir"
+alias ip_monitoring="cd $pipeline_dir/aws-assets/cloudFormation/stacks/beehive-monitoring"
+alias smoketests="vim $testcases_file"
+alias smoketests-py="vim $HOME/autodesk/dpe/dh-beehive-datapipeline/aws-assets/lambda/functions/beehive-cicd-smoketesttrigger/SmokeTestTrigger.py"
+alias cicd="cd ~/autodesk/dpe/dh-beehive-datapipeline/cicd/serverless-cicd-pattern"
+alias ditaot="cd ~/autodesk/dh-beehive-dita-ot"
+alias cronscript="cd ~/autodesk/dh-beehive-dita-ot-cronscripts"
+alias lc="cd ~/autodesk/learning-content"
+alias ucp="cd ~/autodesk/dpe/dh-unified-content-pipeline"
+alias perpy="pipenv run python"
+alias dc="docker compose"
+alias soa='source ~/.aliases; echo "Sourced aliases"'
+alias clauded="claude --dangerously-skip-permissions"
+
+# MCP Autopilot
+alias autopilot='uv run --directory ~/autodesk/tools/mcp-autopilot autopilot'
+alias ws='~/autodesk/tools/mcp-autopilot/.venv/bin/ws'
+
+# Java versions
+alias java-17="export JAVA_HOME=$(/usr/libexec/java_home -v 17); java -version"
+alias java-11="export JAVA_HOME=$(/usr/libexec/java_home -v 11); java -version"
+
+### Copilot
+
+alias gcp="gh copilot"
+alias gce="gh copilot explain"
+gcs() {
+  yes "" 2>/dev/null | gh copilot suggest "$@"
+}
+gcef() {
+  file="$1"
+  gh copilot explain "$(cat "$file")"
+}
+
+
+gbd() {
+  [[ ! -z $1 ]] && git branch -D $(git branch -l $1)
+}
+
+cpb() {
+  cat "$1" | pbcopy
+}
+
+readtime() {
+  total_time=$(echo "scale=2; $(pbpaste | wc -w) / 183" | bc)
+  minutes=$(echo $total_time | cut -d . -f 1)
+  seconds=$(printf "%.0f"  "$((.$(echo $total_time | cut -d . -f 2)*60))")
+  echo "Est time: $minutes minutes and $seconds seconds"
+}
+
+alias pkey='cat ~/.ssh/id_rsa.pub | pbcopy'
+
+source "${DOTFILES_DIR:-$HOME/.dotfiles}/adsk.sh"

@@ -6,14 +6,14 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # top-level dotfiles -> ~/.<name>
 FILES=(
-  aliases aliases.local
+  aliases
   bash_profile
-  gitconfig gitconfig.local
+  gitconfig
   gitignore gitignore_global
   hushlogin
-  tmux.conf tmux.conf.local
-  vimrc vimrc.bundles vimrc.local vimrc.bundles.local
-  zprofile zshenv zshrc zshrc.local
+  tmux.conf
+  vimrc vimrc.bundles
+  zprofile zshenv zshrc
 )
 
 for f in "${FILES[@]}"; do

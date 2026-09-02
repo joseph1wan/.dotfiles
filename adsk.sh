@@ -864,11 +864,11 @@ crawlT() {
 #   -----------------------------
 alias cdd='cd ~/dotfiles'
 alias cdl='cd ~/dotfiles'
-alias vzs="nvim ~/dotfiles/zshrc.local"
-alias al='nvim ~/dotfiles/aliases.local'
-alias vgc='nvim ~/dotfiles/gitconfig.local'
-alias vrc='nvim ~/dotfiles/vimrc.local'
-alias vplug='nvim ~/dotfiles/vimrc.bundles.local'
+alias vzs="nvim ~/.dotfiles/zshrc"
+alias al='nvim ~/.dotfiles/aliases'
+alias vgc='nvim ~/.dotfiles/gitconfig'
+alias vrc='nvim ~/.dotfiles/vimrc'
+alias vplug='nvim ~/.dotfiles/vimrc.bundles'
 alias vnv='nvim ~/.config/nvim/init.vim'
 alias vpack='nvim ~/.config/nvim/lua/plugins.lua'
 alias vlsp='nvim ~/.config/nvim/lua/lspconfig-setup.lua'

@@ -19,22 +19,28 @@ bash install.sh
 
 ## Layout
 
-- `vimrc`, `vimrc.bundles`, `vimrc.local`, `vimrc.bundles.local` — vim config
+- `vimrc`, `vimrc.bundles` — vim config
 - `nvim/` — neovim config, symlinked to `~/.config/nvim`
-- `tmux.conf`, `tmux.conf.local` — tmux
-- `gitconfig`, `gitconfig.local`, `gitignore`, `gitignore_global` — git
-- `zshenv`, `zshrc`, `zshrc.local`, `zprofile` — shell entrypoints
+- `tmux.conf` — tmux
+- `gitconfig`, `gitignore`, `gitignore_global` — git
+- `zshenv`, `zshrc`, `zprofile` — shell entrypoints
 - `zsh/` — zsh functions, completions, and configs loaded by `zshrc`,
   symlinked to `~/.zsh`
-- `aliases`, `aliases.local` — shell aliases (`aliases.local` holds
-  work-specific aliases/functions, notably `adsk.sh`)
-- `adsk.sh` — Autodesk-specific aliases/functions, sourced from
-  `aliases.local`
+- `aliases` — shell aliases, including work-specific aliases/functions
+- `adsk.sh` — Autodesk-specific aliases/functions, sourced from `aliases`
 - `awsl-refresh`, `awsl-refresh-daemon.sh` — AWS credential refresh helpers
   (requires VPN)
+- `claude/statusline.sh` — Claude Code statusline, symlinked to
+  `~/.claude/statusline.sh` (wired up via `statusLine` in
+  `~/.claude/settings.json`, which is not managed by this repo)
 
 ## Notes
 
-- `*.local` files are machine/work-specific and load after their base
-  counterpart.
+- `zshenv` and `zshrc` still honor an optional untracked `~/.zshenv.local`
+  / `~/.zshrc.local` for machine-specific secrets that shouldn't be
+  committed at all — these are not part of this repo and not symlinked
+  by `install.sh`. Everything else that used to be split into
+  `foo`/`foo.local` pairs (an artifact of a previous rcup-based setup,
+  where `foo.local` was tracked and symlinked just like `foo`) has been
+  merged, since this whole repo is already private.
 - `awsl` and related AWS helpers require being on VPN.
