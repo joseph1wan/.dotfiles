@@ -1,0 +1,159 @@
+let g:python3_host_prog = '/opt/homebrew/bin/python3'
+
+" Settings
+set ignorecase
+set scrolloff=5
+set relativenumber
+set tags^=./.git/tags
+highlight Pmenu ctermbg=gray guibg=gray
+let g:ale_set_highlights = 0
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_text_changed = 0
+let g:ale_lint_on_insert_leave = 0
+set colorcolumn=0
+
+" Key mappings
+ino jk <esc>
+cno jk <c-c>
+noremap <A-h> <Left>
+noremap <A-j> <Down>
+noremap <C-k> <Up>
+noremap <C-l> <Right>
+vno v <esc>
+nmap <Leader>- :split<Cr>
+nmap <Leader>\ :vsplit<Cr>
+
+" Simple editing
+nmap <Leader>o mao<Esc>'a
+nmap <Leader>O maO<Esc>'a
+nmap <Leader>D mq$x`q
+nmap <Leader>dt d
+nmap <Leader>ll mkgg=G'k
+noremap <Leader>i mki <Esc>
+nmap <Leader>H ^
+nmap <Leader>L $
+nmap Y yy
+
+" File manipulation
+nmap <Leader>w :wa<Cr>
+nmap <Leader>q :q<Cr>
+nmap <Leader>so :so $MYVIMRC<CR>
+nmap <Leader>eso :vsplit ~/dotfiles-local/vimrc.local<Esc>
+
+" Alternate files and rspec files
+nmap <Leader>r :A<Cr>
+nmap <Leader>rf :Rfactory<Cr>
+nmap <Leader>R :vsplit<Cr>:A<Cr>
+nmap <Leader>A :vsplit<Cr>:Alternate<CR>
+
+nmap <Leader>n :NERDTreeToggle<Cr>
+
+nmap <Leader>} ysiW}i#<Esc>
+nmap <Leader>d) ds)i <Esc>
+nmap <Leader># ysiW}i#<Esc>
+nmap <Leader># viw<Leader>#
+vmap <Leader># S}i#<Esc>
+nmap <Leader>: i:<Esc>ysiW]i
+nmap <Leader>" viw<Leader>"
+vmap <Leader>" S"
+nmap <Leader>;: ds]xf=Xr:
+nmap <Leader>:> ysiw'f:cw =><Esc>
+nmap <Leader>': ds'elcf>:<Esc>
+nmap <Leader>": ds'elcf>:<Esc>
+nmap <Leader>` ysiw`
+
+" Replace word with paste
+nmap <Leader>vwp viwp
+
+" Use macro
+nmap <Leader>1 @q
+nmap <Leader>2 @w
+nmap <Leader>3 @e
+nmap <Leader>4 @r
+nmap <Leader>5 @t
+nmap <Leader>6 @y
+nmap <Leader>7 @u
+nmap <Leader>8 <Leader>Hf{DJd2f:vUf,cl.new(jklx/},<Enter>C),jk
+
+" Copilot Chat
+nmap <Leader>p :CopilotChatToggle<Cr>
+
+
+" Copy and paste
+nmap <Leader>cc ggvG cc
+nmap <Leader>vv ggdG"+p<Esc>
+nmap <Leader>ya ggyG
+vnoremap <Leader>cc :%w !pbcopy<cr><cr>
+" noremap <Leader>vv o<C-r>*<Esc>
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" automatically rebalance windows on vim resize
+autocmd VimResized * :wincmd =
+
+let g:rspec_command = "VtrSendCommandToRunner! be rspec {spec} --format doc"
+map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
+map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
+map <Leader>l :wa<CR>:call RunLastSpec()<CR>
+map <Leader>a :wa<CR>:call RunAllSpecs()<CR>
+map <Leader>f :wa<CR>:VtrSendCommandToRunner be rspec --format=doc --only-fail<CR>
+
+" Write all buffers before navigating from Vim to tmux pane
+let g:tmux_navigator_save_on_switch = 2
+
+" VTR commands
+nnoremap <leader>v- :VtrOpenRunner { "orientation": "v" }<cr>
+noremap <leader>v\ :VtrOpenRunner { "orientation": "h" }<cr>
+nnoremap <leader>vk :VtrKillRunner<cr>
+nnoremap <leader>va :VtrAttachToPane<cr>
+nnoremap <leader>fr :VtrFocusRunner<cr>
+nnoremap <Leader>sl :VtrSendLinesToRunner<cr>
+vno  <Leader>sl :VtrSendLinesToRunner<cr>
+nnoremap <leader>vs :VtrSendCommandToRunner<space>
+map <Leader>r :wa<CR>:VtrSendCommandToRunner !! --only-fail<CR>
+map <Leader>v2 :VtrAttachToPane 2<CR>
+map <Leader>v3 :VtrAttachToPane 3<CR>
+
+" Run a given vim command on the results of alt from a given path.
+" See usage below.
+function! AltCommand(path, vim_command)
+  let l:alternate = system("alt " . a:path)
+  if empty(l:alternate)
+    echo "No alternate file for " . a:path . " exists!"
+  else
+    exec a:vim_command . " " . l:alternate
+  endif
+endfunction
+
+" Find the alternate file for the current path and open it
+nnoremap <leader>. :w<cr>:call AltCommand(expand('%'),':e')<cr>
+
+set undofile
+set undodir=~/.vim/undodir
+set formatoptions-=tc
+
+let g:ruby_indent_access_modifier_style="indent"
+let g:vimrubocop_config = getcwd() . '/rubocop.yml'
+
+" erb and html filetype settings
+autocmd FileType eruby,html,Jenkinsfile setlocal cc=
+autocmd FileType sh setlocal formatoptions-=tc cc=
+
+autocmd BufRead,BufNewFile *.html setlocal nowrap cc= formatoptions-=tc textwidth=0
+autocmd BufRead,BufNewFile *.envrc setlocal nowrap cc= formatoptions-=tc textwidth=0
+autocmd BufRead,BufNewFile *.json setlocal nowrap cc= formatoptions-=tc textwidth=0
+autocmd BufRead,BufNewFile *.txt setlocal nowrap cc= formatoptions-=tc textwidth=0
+autocmd BufRead,BufNewFile *.md setlocal nowrap cc= formatoptions-=tc textwidth=0
+autocmd BufRead,BufNewFile *.mdx setlocal nowrap cc= formatoptions-=tc textwidth=0
+
+" set filetypes as typescriptreact
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+
+let g:AlternateExtensionMappings = [{'.rb': '.html.erb'}, {'.html.erb': '.rb'}]
+let g:mkdp_echo_preview_url = 1
+autocmd Filetype json
+  \ let g:indentLine_setConceal = 0 |
+  \ let g:vim_json_syntax_conceal = 0
+
+silent! colorscheme catppuccin

@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(source:*)",
+      "Bash(sftp-update)",
+      "Bash(sftp-list:*)",
+      "Bash(sftp-update-detailed:*)",
+      "Bash(bash -c 'source ~/dotfiles-local/adsk.sh && sftp-update-detailed')",
+      "Bash(bash -c 'source ~/dotfiles-local/adsk.sh && sftp-list \"\"INFDS\"\" -d | grep \"\"2027\"\" | grep \"\"ENU\"\"')",
+      "Bash(bash -c 'source ~/dotfiles-local/adsk.sh && sftp-update')",
+      "Bash(bash -c 'source ~/dotfiles-local/adsk.sh && echo \"\"=== Without -d flag (filenames only) ===\"\" && sftp-list \"\"INFDS\"\" && echo && echo \"\"=== With -d flag (dates + filenames) ===\"\" && sftp-list \"\"INFDS\"\" -d')",
+      "Bash(sftp:*)",
+      "Bash(bash -c 'source ~/dotfiles-local/adsk.sh && echo \"\"=== INFDS 2027 ENU - Filename only ===\"\" && sftp-list \"\"INFDS.*2027.*ENU\"\" && echo && echo \"\"=== INFDS 2027 ENU - With dates ===\"\" && sftp-list \"\"INFDS.*2027.*ENU\"\" -d')",
+      "Bash(bash -c 'source ~/dotfiles-local/adsk.sh 2>&1 | head -20')",
+      "Bash(zsh -c 'source ~/dotfiles-local/adsk.sh 2>&1')",
+      "Bash(zsh -n:*)",
+      "Bash(zsh -c 'source ~/dotfiles-local/aliases.local 2>&1')"
+    ]
+  }
+}
