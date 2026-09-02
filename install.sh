@@ -11,8 +11,7 @@ FILES=(
   gitconfig
   gitignore gitignore_global
   hushlogin
-  tmux.conf
-  vimrc vimrc.bundles
+  vimrc
   zprofile zshenv zshrc
 )
 

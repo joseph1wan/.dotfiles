@@ -19,9 +19,8 @@ bash install.sh
 
 ## Layout
 
-- `vimrc`, `vimrc.bundles` — vim config
+- `vimrc` — vim/neovim settings, sourced by `nvim/init.vim`
 - `nvim/` — neovim config, symlinked to `~/.config/nvim`
-- `tmux.conf` — tmux
 - `gitconfig`, `gitignore`, `gitignore_global` — git
 - `zshenv`, `zshrc`, `zprofile` — shell entrypoints
 - `zsh/` — zsh functions, completions, and configs loaded by `zshrc`,

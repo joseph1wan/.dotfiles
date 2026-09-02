@@ -1,8 +1,11 @@
 brew "git"
-brew "tmux"
 brew "neovim"
 brew "fzf"
 brew "jq"
+brew "ripgrep"
+brew "fd"
+brew "stylua"
+brew "tree-sitter-cli" # required by nvim-treesitter (main branch) to compile parsers
 
 tap "hashicorp/tap"
 brew "hashicorp/tap/vault"

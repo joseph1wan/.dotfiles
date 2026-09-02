@@ -1,35 +1,57 @@
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.cmd [[packadd packer.nvim]]
-    return true
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+  local out = vim.fn.system({
+    "git", "clone", "--filter=blob:none", "--branch=stable",
+    "https://github.com/folke/lazy.nvim.git", lazypath,
+  })
+  if vim.v.shell_error ~= 0 then
+    vim.api.nvim_echo({ { "Failed to clone lazy.nvim:\n" .. out, "ErrorMsg" } }, true, {})
+    os.exit(1)
   end
-  return false
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
+require("lazy").setup({
+  spec = {
+    { "catppuccin/nvim", name = "catppuccin", lazy = false, priority = 1000 },
 
-return require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim' -- Plugin manager
-  use "williamboman/mason.nvim" -- LSP server installer
-  use "williamboman/mason-lspconfig.nvim"
-  use 'neovim/nvim-lspconfig'
-  use 'hrsh7th/nvim-cmp' -- Autocompletion plugin
-  use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
-  use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-  use 'L3MON4D3/LuaSnip' -- Snippets plugin
-  use 'jose-elias-alvarez/null-ls.nvim'
-  use 'MunifTanjim/prettier.nvim'
-  use 'ervandew/supertab'
-  use 'github/copilot.vim'
-  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
-  use { "catppuccin/nvim", as = "catppuccin" }
+    {
+      "nvim-treesitter/nvim-treesitter",
+      branch = "main",
+      build = ":TSUpdate",
+      lazy = false,
+      config = function() require("treesitter-config") end,
+    },
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if packer_bootstrap then
-    require('packer').sync()
-  end
-end)
+    {
+      "nvim-telescope/telescope.nvim",
+      branch = "0.1.x",
+      dependencies = { "nvim-lua/plenary.nvim" },
+      config = function() require("telescope-config") end,
+      keys = {
+        { "<C-p>", function() require("telescope.builtin").find_files() end, desc = "Find files" },
+        { "\\", function() require("telescope.builtin").live_grep() end, desc = "Live grep" },
+        { "<leader>fb", function() require("telescope.builtin").buffers() end, desc = "Buffers" },
+        { "<leader>fh", function() require("telescope.builtin").help_tags() end, desc = "Help tags" },
+      },
+    },
+
+    {
+      "stevearc/conform.nvim",
+      cmd = { "ConformInfo" },
+      keys = {
+        { "<leader>f", function() require("conform").format({ async = true, lsp_fallback = true }) end,
+          mode = { "n", "v" }, desc = "Format buffer/selection" },
+      },
+      config = function() require("conform-config") end,
+    },
+
+    {
+      "mfussenegger/nvim-lint",
+      event = { "BufReadPost", "BufNewFile", "BufWritePost" },
+      config = function() require("lint-config") end,
+    },
+  },
+  install = { colorscheme = { "catppuccin" } },
+  checker = { enabled = false },
+})

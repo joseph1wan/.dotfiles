@@ -25,10 +25,6 @@ if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
   syntax on
 endif
 
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
-endif
-
 " Load matchit.vim, but only if the user hasn't installed a newer version.
 if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
   runtime! macros/matchit.vim
@@ -56,23 +52,6 @@ augroup vimrcEx
     \ set filetype=sh
 augroup END
 
-" ALE linting events
-augroup ale
-  autocmd!
-
-  if g:has_async
-    autocmd VimEnter *
-      \ set updatetime=1000 |
-      \ let g:ale_lint_on_text_changed = 0
-    autocmd CursorHold * call ale#Queue(0)
-    autocmd CursorHoldI * call ale#Queue(0)
-    autocmd InsertEnter * call ale#Queue(0)
-    autocmd InsertLeave * call ale#Queue(0)
-  else
-    echoerr "The thoughtbot dotfiles require NeoVim or Vim 8"
-  endif
-augroup END
-
 " When the type of shell script is /bin/sh, assume a POSIX-compatible
 " shell for syntax highlighting purposes.
 let g:is_posix = 1
@@ -93,20 +72,10 @@ set nojoinspaces
 if executable('rg')
   " Use Rg over Grep
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
-
-  " Use rg in fzf for listing files. Lightning fast and respects .gitignore
-  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-
-  nnoremap \ :Rg<SPACE>
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 elseif executable('ag')
   " Use Ag over Grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in fzf for listing files. Lightning fast and respects .gitignore
-  let $FZF_DEFAULT_COMMAND = 'ag --literal --files-with-matches --nocolor --hidden -g ""'
-
-  nnoremap \ :Ag<SPACE>
 endif
 
 " Make it obvious where 80 characters is
@@ -135,16 +104,6 @@ inoremap <S-Tab> <C-n>
 " Switch between the last two files
 nnoremap <Leader><Leader> <C-^>
 
-" vim-test mappings
-nnoremap <silent> <Leader>t :TestFile<CR>
-nnoremap <silent> <Leader>s :TestNearest<CR>
-nnoremap <silent> <Leader>l :TestLast<CR>
-nnoremap <silent> <Leader>a :TestSuite<CR>
-nnoremap <silent> <Leader>gt :TestVisit<CR>
-
-" Run commands that require an interactive shell
-nnoremap <Leader>r :RunInInteractiveShell<Space>
-
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
@@ -161,13 +120,6 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
-" Move between linting errors
-nnoremap ]r :ALENextWrap<CR>
-nnoremap [r :ALEPreviousWrap<CR>
-
-" Map Ctrl + p to open fuzzy find (FZF)
-nnoremap <c-p> :Files<cr>
-
 " Set spellfile to location that is guaranteed to exist, can be symlinked to
 " Dropbox or kept in Git and managed outside of thoughtbot/dotfiles using rcm.
 set spellfile=$HOME/.vim-spell-en.utf-8.add
@@ -178,19 +130,11 @@ set complete+=kspell
 " Always use vertical diffs
 set diffopt+=vertical
 
-" Use Catpuccin Latte as our default color scheme
-colorscheme catppuccin_latte
-
 " Settings
 set ignorecase
 set scrolloff=5
 set relativenumber
-set tags^=./.git/tags
 highlight Pmenu ctermbg=gray guibg=gray
-let g:ale_set_highlights = 0
-let g:ale_lint_on_enter = 0
-let g:ale_lint_on_text_changed = 0
-let g:ale_lint_on_insert_leave = 0
 set colorcolumn=0
 
 " Key mappings
@@ -221,14 +165,6 @@ nmap <Leader>q :q<Cr>
 nmap <Leader>so :so $MYVIMRC<CR>
 nmap <Leader>eso :vsplit $MYVIMRC<Esc>
 
-" Alternate files and rspec files
-nmap <Leader>r :A<Cr>
-nmap <Leader>rf :Rfactory<Cr>
-nmap <Leader>R :vsplit<Cr>:A<Cr>
-nmap <Leader>A :vsplit<Cr>:Alternate<CR>
-
-nmap <Leader>n :NERDTreeToggle<Cr>
-
 nmap <Leader>} ysiW}i#<Esc>
 nmap <Leader>d) ds)i <Esc>
 nmap <Leader># ysiW}i#<Esc>
@@ -256,10 +192,6 @@ nmap <Leader>6 @y
 nmap <Leader>7 @u
 nmap <Leader>8 <Leader>Hf{DJd2f:vUf,cl.new(jklx/},<Enter>C),jk
 
-" Copilot Chat
-nmap <Leader>p :CopilotChatToggle<Cr>
-
-
 " Copy and paste
 nmap <Leader>cc ggvG cc
 nmap <Leader>vv ggdG"+p<Esc>
@@ -273,52 +205,12 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 
-let g:rspec_command = "VtrSendCommandToRunner! be rspec {spec} --format doc"
-map <Leader>t ::wa<CR>:call RunCurrentSpecFile()<CR>
-map <Leader>s :wa<CR>:call RunNearestSpec()<CR>
-map <Leader>l :wa<CR>:call RunLastSpec()<CR>
-map <Leader>a :wa<CR>:call RunAllSpecs()<CR>
-map <Leader>f :wa<CR>:VtrSendCommandToRunner be rspec --format=doc --only-fail<CR>
-
-" Write all buffers before navigating from Vim to tmux pane
-let g:tmux_navigator_save_on_switch = 2
-
-" VTR commands
-nnoremap <leader>v- :VtrOpenRunner { "orientation": "v" }<cr>
-noremap <leader>v\ :VtrOpenRunner { "orientation": "h" }<cr>
-nnoremap <leader>vk :VtrKillRunner<cr>
-nnoremap <leader>va :VtrAttachToPane<cr>
-nnoremap <leader>fr :VtrFocusRunner<cr>
-nnoremap <Leader>sl :VtrSendLinesToRunner<cr>
-vno  <Leader>sl :VtrSendLinesToRunner<cr>
-nnoremap <leader>vs :VtrSendCommandToRunner<space>
-map <Leader>r :wa<CR>:VtrSendCommandToRunner !! --only-fail<CR>
-map <Leader>v2 :VtrAttachToPane 2<CR>
-map <Leader>v3 :VtrAttachToPane 3<CR>
-
-" Run a given vim command on the results of alt from a given path.
-" See usage below.
-function! AltCommand(path, vim_command)
-  let l:alternate = system("alt " . a:path)
-  if empty(l:alternate)
-    echo "No alternate file for " . a:path . " exists!"
-  else
-    exec a:vim_command . " " . l:alternate
-  endif
-endfunction
-
-" Find the alternate file for the current path and open it
-nnoremap <leader>. :w<cr>:call AltCommand(expand('%'),':e')<cr>
-
 set undofile
 set undodir=~/.vim/undodir
 set formatoptions-=tc
 
-let g:ruby_indent_access_modifier_style="indent"
-let g:vimrubocop_config = getcwd() . '/rubocop.yml'
-
-" erb and html filetype settings
-autocmd FileType eruby,html,Jenkinsfile setlocal cc=
+" html and Jenkinsfile filetype settings
+autocmd FileType html,Jenkinsfile setlocal cc=
 autocmd FileType sh setlocal formatoptions-=tc cc=
 
 autocmd BufRead,BufNewFile *.html setlocal nowrap cc= formatoptions-=tc textwidth=0
@@ -330,11 +222,5 @@ autocmd BufRead,BufNewFile *.mdx setlocal nowrap cc= formatoptions-=tc textwidth
 
 " set filetypes as typescriptreact
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
-
-let g:AlternateExtensionMappings = [{'.rb': '.html.erb'}, {'.html.erb': '.rb'}]
-let g:mkdp_echo_preview_url = 1
-autocmd Filetype json
-  \ let g:indentLine_setConceal = 0 |
-  \ let g:vim_json_syntax_conceal = 0
 
 silent! colorscheme catppuccin

@@ -868,10 +868,12 @@ alias vzs="nvim ~/.dotfiles/zshrc"
 alias al='nvim ~/.dotfiles/aliases'
 alias vgc='nvim ~/.dotfiles/gitconfig'
 alias vrc='nvim ~/.dotfiles/vimrc'
-alias vplug='nvim ~/.dotfiles/vimrc.bundles'
 alias vnv='nvim ~/.config/nvim/init.vim'
 alias vpack='nvim ~/.config/nvim/lua/plugins.lua'
-alias vlsp='nvim ~/.config/nvim/lua/lspconfig-setup.lua'
+alias vts='nvim ~/.config/nvim/lua/treesitter-config.lua'
+alias vconform='nvim ~/.config/nvim/lua/conform-config.lua'
+alias vlint='nvim ~/.config/nvim/lua/lint-config.lua'
+alias vtele='nvim ~/.config/nvim/lua/telescope-config.lua'
 
 gsed() {
   sed -E -i '' "s/$2/$3/g" $(grep -rl $2 $1)
