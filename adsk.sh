@@ -411,7 +411,7 @@ awsl() {
   fi
 }
 
-alias awsr="$HOME/dotfiles/awsl-refresh"
+alias awsr="$HOME/.dotfiles/awsl-refresh"
 
 docker_artifactory_login() {
   echo "$ARTIFACTORY_IDENTITY_TOKEN" | docker login https://autodesk-docker.art-bobcat.autodesk.com/ --username wanj --password-stdin
@@ -862,8 +862,8 @@ crawlT() {
 #   -----------------------------
 #   CONFIG FILES
 #   -----------------------------
-alias cdd='cd ~/dotfiles'
-alias cdl='cd ~/dotfiles'
+alias cdd='cd ~/.dotfiles'
+alias cdl='cd ~/.dotfiles'
 alias vzs="nvim ~/.dotfiles/zshrc"
 alias al='nvim ~/.dotfiles/aliases'
 alias vgc='nvim ~/.dotfiles/gitconfig'

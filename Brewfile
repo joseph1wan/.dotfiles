@@ -17,3 +17,5 @@ brew "pyenv"
 brew "direnv"
 
 cask "docker-desktop"
+cask "zulu@17"
+cask "zulu@11"
