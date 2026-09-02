@@ -33,4 +33,11 @@ ln -sfn "$DOTFILES_DIR/zsh" "$HOME/.zsh"
 mkdir -p "$HOME/.config"
 ln -sfn "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 
+mkdir -p "$HOME/.claude/skills"
+for s in "$DOTFILES_DIR"/claude/skills/*/; do
+  name="$(basename "$s")"
+  ln -sfn "$s" "$HOME/.claude/skills/$name"
+done
+ln -sf "$DOTFILES_DIR/claude/statusline.sh" "$HOME/.claude/statusline.sh"
+
 echo "done"

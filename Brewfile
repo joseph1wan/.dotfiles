@@ -13,5 +13,7 @@ brew "node"
 brew "python3"
 brew "pipenv"
 brew "uv"
+brew "pyenv"
+brew "direnv"
 
 cask "docker-desktop"
