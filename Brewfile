@@ -3,7 +3,10 @@ brew "tmux"
 brew "neovim"
 brew "fzf"
 brew "jq"
-brew "vault"
+
+tap "hashicorp/tap"
+brew "hashicorp/tap/vault"
+
 brew "awscli"
 brew "gh"
 brew "node"
