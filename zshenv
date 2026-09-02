@@ -1,3 +1,7 @@
+_zsh_link="$HOME/.zsh"
+export DOTFILES_DIR="${_zsh_link:A:h}"
+unset _zsh_link
+
 local _old_path="$PATH"
 
 # Local config

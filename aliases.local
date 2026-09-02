@@ -7,7 +7,7 @@ testcases_file="$pipeline_dir/aws-assets/lambda/functions/beehive-cicd-smoketest
 learning_content_dir="$HOME/autodesk/learning-content"
 alias adsk="cd $HOME/autodesk"
 alias l='ls'
-alias als="vim /Users/wanj/dotfiles/adsk.sh"
+alias als="vim ${DOTFILES_DIR:-$HOME/.dotfiles}/adsk.sh"
 # alias ls='ls -1'
 alias download="cd ~/Downloads"
 alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
@@ -69,4 +69,4 @@ readtime() {
 
 alias pkey='cat ~/.ssh/id_rsa.pub | pbcopy'
 
-source /Users/wanj/dotfiles/adsk.sh
+source "${DOTFILES_DIR:-$HOME/.dotfiles}/adsk.sh"
