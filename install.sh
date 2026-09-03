@@ -46,4 +46,9 @@ if [ -d "$DOTFILES_DIR/adsk/claude-skills" ]; then
   done
 fi
 
+if [ -f "$DOTFILES_DIR/adsk/npmrc.template" ] && [ ! -f "$HOME/.npmrc" ]; then
+  cp "$DOTFILES_DIR/adsk/npmrc.template" "$HOME/.npmrc"
+  echo "wrote ~/.npmrc from adsk template (run npm login to add auth)"
+fi
+
 echo "done"

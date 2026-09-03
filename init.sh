@@ -43,6 +43,9 @@ fi
 if [ "$WITH_ADSK" -eq 1 ]; then
   echo "fetching adsk submodule..."
   git -C "$DOTFILES_DIR" submodule update --init adsk || echo "warn: adsk submodule fetch failed (needs git.autodesk.com access)"
+
+  echo "logging into Autodesk npm registry..."
+  npm login --registry https://npm.autodesk.com/artifactory/api/npm/npm-remote/ || echo "warn: npm login failed/skipped"
 fi
 
 echo "symlinking dotfiles..."
