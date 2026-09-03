@@ -39,4 +39,11 @@ for s in "$DOTFILES_DIR"/claude/skills/*/; do
 done
 ln -sf "$DOTFILES_DIR/claude/statusline.sh" "$HOME/.claude/statusline.sh"
 
+if [ -d "$DOTFILES_DIR/adsk/claude-skills" ]; then
+  for s in "$DOTFILES_DIR"/adsk/claude-skills/*/; do
+    name="$(basename "$s")"
+    ln -sfn "$s" "$HOME/.claude/skills/$name"
+  done
+fi
+
 echo "done"

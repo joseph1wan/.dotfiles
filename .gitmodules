@@ -1,0 +1,3 @@
+[submodule "adsk"]
+	path = adsk
+	url = git@git.autodesk.com:wanj/autodesk-dotfiles.git

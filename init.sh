@@ -4,6 +4,13 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+WITH_ADSK=0
+for arg in "$@"; do
+  case "$arg" in
+    --with-adsk) WITH_ADSK=1 ;;
+  esac
+done
+
 if ! command -v brew >/dev/null; then
   echo "installing homebrew..."
   sudo -v
@@ -27,6 +34,16 @@ echo "installing packages from Brewfile..."
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 
 npm install -g serverless 2>/dev/null || echo "warn: serverless install skipped"
+
+npm install -g codebase-memory-mcp 2>/dev/null || echo "warn: codebase-memory-mcp install skipped"
+if command -v claude >/dev/null; then
+  claude mcp add --scope user codebase-memory-mcp -- codebase-memory-mcp 2>/dev/null || echo "warn: codebase-memory-mcp already registered or claude mcp add failed"
+fi
+
+if [ "$WITH_ADSK" -eq 1 ]; then
+  echo "fetching adsk submodule..."
+  git -C "$DOTFILES_DIR" submodule update --init adsk || echo "warn: adsk submodule fetch failed (needs git.autodesk.com access)"
+fi
 
 echo "symlinking dotfiles..."
 bash "$DOTFILES_DIR/install.sh"

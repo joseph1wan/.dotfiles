@@ -44,7 +44,6 @@ setopt auto_cd
 
 export GOPATH=~/go
 [ -d /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home ] && export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
-# export HOMEBREW_AUTODESK_GHE_TOKEN=... (set in a local, untracked env file)
 export PATH="$PATH:$HOME/.local/bin"
 
 if [ -f /opt/homebrew/share/antigen/antigen.zsh ]; then
@@ -80,7 +79,7 @@ eval "$(fzf --zsh)"
 eval "$(pyenv init --path)"
 # eval "$(rbenv init - zsh)"
 eval "$(direnv hook zsh)"
-# eval "$($HOME/autodesk/content-platform/cp-workflows/local_setup/wt-init.sh)"
+[ -f "${DOTFILES_DIR:-$HOME/.dotfiles}/adsk/zshrc.sh" ] && source "${DOTFILES_DIR:-$HOME/.dotfiles}/adsk/zshrc.sh"
 
 # Optional untracked, machine-local overrides (secrets, etc.) — not part of
 # this repo, not symlinked by install.sh.

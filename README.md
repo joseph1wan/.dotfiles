@@ -25,10 +25,12 @@ bash install.sh
 - `zshenv`, `zshrc`, `zprofile` — shell entrypoints
 - `zsh/` — zsh functions, completions, and configs loaded by `zshrc`,
   symlinked to `~/.zsh`
-- `aliases` — shell aliases, including work-specific aliases/functions
-- `adsk.sh` — Autodesk-specific aliases/functions, sourced from `aliases`
-- `awsl-refresh`, `awsl-refresh-daemon.sh` — AWS credential refresh helpers
-  (requires VPN)
+- `aliases` — shell aliases
+- `adsk/` — private git.autodesk.com submodule with Autodesk-specific
+  aliases, AWS credential refresh helpers (`awsl-refresh`, requires VPN),
+  diagrams, and work-flavored Claude skills. Optional — everything else
+  works without it. After cloning, run `git submodule update --init` to
+  pull it (requires git.autodesk.com access)
 - `claude/statusline.sh` — Claude Code statusline, symlinked to
   `~/.claude/statusline.sh` (wired up via `statusLine` in
   `~/.claude/settings.json`, which is not managed by this repo)
