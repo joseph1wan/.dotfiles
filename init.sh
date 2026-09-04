@@ -33,13 +33,6 @@ brew trust hashicorp/tap
 echo "installing packages from Brewfile..."
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 
-npm install -g serverless 2>/dev/null || echo "warn: serverless install skipped"
-
-npm install -g codebase-memory-mcp 2>/dev/null || echo "warn: codebase-memory-mcp install skipped"
-if command -v claude >/dev/null; then
-  claude mcp add --scope user codebase-memory-mcp -- codebase-memory-mcp 2>/dev/null || echo "warn: codebase-memory-mcp already registered or claude mcp add failed"
-fi
-
 if [ "$WITH_ADSK" -eq 1 ]; then
   echo "fetching adsk submodule..."
   git -C "$DOTFILES_DIR" submodule update --init adsk || echo "warn: adsk submodule fetch failed (needs git.autodesk.com access)"
@@ -49,7 +42,17 @@ if [ "$WITH_ADSK" -eq 1 ]; then
   fi
 
   echo "logging into Autodesk npm registry..."
-  printf '\n' | npm login || echo "warn: npm login failed/skipped"
+  if ! npm login; then
+    echo "npm login failed. Run 'npm login' manually, then re-run ./init.sh --with-adsk."
+    exit 1
+  fi
+fi
+
+npm install -g serverless 2>/dev/null || echo "warn: serverless install skipped"
+
+npm install -g codebase-memory-mcp 2>/dev/null || echo "warn: codebase-memory-mcp install skipped"
+if command -v claude >/dev/null; then
+  claude mcp add --scope user codebase-memory-mcp -- codebase-memory-mcp 2>/dev/null || echo "warn: codebase-memory-mcp already registered or claude mcp add failed"
 fi
 
 echo "symlinking dotfiles..."

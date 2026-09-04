@@ -46,34 +46,14 @@ export GOPATH=~/go
 [ -d /Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home ] && export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 export PATH="$PATH:$HOME/.local/bin"
 
-if [ -f /opt/homebrew/share/antigen/antigen.zsh ]; then
-  source /opt/homebrew/share/antigen/antigen.zsh
+eval "$(zoxide init zsh)"
 
-  # Load the oh-my-zsh's library
-  antigen use oh-my-zsh
+_brew_prefix="$(brew --prefix)"
+[ -f "$_brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source "$_brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[ -f "$_brew_prefix/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh" ] && source "$_brew_prefix/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+unset _brew_prefix
 
-  antigen bundle agkozak/zsh-z
-  antigen bundle zsh-users/zsh-autosuggestions
-  antigen bundle zsh-users/zsh-completions
-  antigen bundle zsh-users/zsh-syntax-highlighting
-
-  # Load the theme
-  antigen theme denysdovhan/spaceship-prompt
-
-  ### Fix slowness of pastes with zsh-syntax-highlighting.zsh
-  pasteinit() {
-    OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
-    zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
-  }
-  pastefinish() {
-    zle -N self-insert $OLD_SELF_INSERT
-  }
-  zstyle :bracketed-paste-magic paste-init pasteinit
-  zstyle :bracketed-paste-magic paste-finish pastefinish
-
-  # Tell antigen that you're done
-  antigen apply
-fi
+eval "$(starship init zsh)"
 
 eval "$(fzf --zsh)"
 eval "$(pyenv init --path)"

@@ -1,5 +1,5 @@
 # Make directory and change into it.
 
-function mcd() {
+function md() {
   mkdir -p "$1" && cd "$1";
 }
