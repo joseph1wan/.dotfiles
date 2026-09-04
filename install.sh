@@ -52,4 +52,27 @@ if [ -f "$DOTFILES_DIR/adsk/npmrc.template" ] && [ ! -f "$HOME/.npmrc" ]; then
   echo "wrote ~/.npmrc from adsk template (run npm login to add auth)"
 fi
 
+if [ -f "$DOTFILES_DIR/adsk/sshconfig" ]; then
+  mkdir -p "$HOME/.ssh"
+  cp "$DOTFILES_DIR/adsk/sshconfig" "$HOME/.ssh/adsk_config"
+  chmod 600 "$HOME/.ssh/adsk_config"
+  include_line="Include ~/.ssh/adsk_config"
+  touch "$HOME/.ssh/config"
+  chmod 600 "$HOME/.ssh/config"
+  if ! grep -qxF "$include_line" "$HOME/.ssh/config"; then
+    # Include directives must precede any Host block they should take priority
+    # over, so prepend rather than append.
+    printf '%s\n%s\n' "$include_line" "$(cat "$HOME/.ssh/config")" > "$HOME/.ssh/config.tmp"
+    mv "$HOME/.ssh/config.tmp" "$HOME/.ssh/config"
+    echo "added Include for adsk ssh config to ~/.ssh/config"
+  fi
+fi
+
+if [ -f "$DOTFILES_DIR/adsk/known_hosts" ]; then
+  mkdir -p "$HOME/.ssh"
+  touch "$HOME/.ssh/known_hosts"
+  comm -23 <(sort "$DOTFILES_DIR/adsk/known_hosts") <(sort "$HOME/.ssh/known_hosts") >> "$HOME/.ssh/known_hosts"
+  echo "merged adsk known_hosts entries into ~/.ssh/known_hosts"
+fi
+
 echo "done"
