@@ -40,6 +40,9 @@ if [ "$WITH_ADSK" -eq 1 ]; then
   echo "installing go..."
   brew install go || echo "warn: go install skipped"
 
+  echo "installing drawio..."
+  brew install --cask drawio || echo "warn: drawio install skipped"
+
   if [ -f "$DOTFILES_DIR/adsk/npmrc.template" ] && [ ! -f "$HOME/.npmrc" ]; then
     cp "$DOTFILES_DIR/adsk/npmrc.template" "$HOME/.npmrc"
   fi
