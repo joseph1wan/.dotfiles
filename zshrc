@@ -3,6 +3,7 @@ for function in ~/.zsh/functions/*; do
   source $function
 done
 
+
 # extra files in ~/.zsh/configs/pre , ~/.zsh/configs , and ~/.zsh/configs/post
 # these are loaded first, second, and third, respectively.
 _load_settings() {
@@ -67,3 +68,8 @@ eval "$(direnv hook zsh)"
 
 # aliases
 [[ -f ~/.aliases ]] && source ~/.aliases
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/wanj/.docker/completions $fpath)
+autoload -Uz compinit
+(( ${+_comps[docker]} )) || compinit
+# End of Docker CLI completions

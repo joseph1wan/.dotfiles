@@ -23,6 +23,7 @@ alias l='ls'
 alias download="cd ~/Downloads"
 alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
 alias vim='nvim'
+alias vi='nvim'
 alias python="python3"
 alias pip="pip3"
 alias be="bundle exec"
@@ -30,6 +31,7 @@ alias perpy="pipenv run python"
 alias dc="docker compose"
 alias soa='source ~/.aliases; echo "Sourced aliases"'
 alias clauded="claude --dangerously-skip-permissions"
+alias mkdwn="cmux markdown open"
 
 # Java versions
 alias java-17="export JAVA_HOME=$(/usr/libexec/java_home -v 17); java -version"
