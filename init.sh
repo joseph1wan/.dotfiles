@@ -57,8 +57,28 @@ fi
 npm install -g serverless 2>/dev/null || echo "warn: serverless install skipped"
 
 npm install -g codebase-memory-mcp 2>/dev/null || echo "warn: codebase-memory-mcp install skipped"
+
 if command -v claude >/dev/null; then
   claude mcp add --scope user codebase-memory-mcp -- codebase-memory-mcp 2>/dev/null || echo "warn: codebase-memory-mcp already registered or claude mcp add failed"
+
+  claude mcp add --scope user --transport http slack https://mcp.slack.com/mcp 2>/dev/null || echo "warn: slack mcp already registered or claude mcp add failed"
+
+  claude mcp add --scope user --transport http atlassian https://mcp.atlassian.com/v1/mcp 2>/dev/null || echo "warn: atlassian mcp already registered or claude mcp add failed"
+
+  if [ "$WITH_ADSK" -eq 1 ]; then
+    if [ -z "${JENKINS_USERNAME:-}" ]; then
+      read -p "Jenkins username for c072: " JENKINS_USERNAME
+    fi
+    if [ -z "${JENKINS_API_TOKEN:-}" ]; then
+      read -sp "Jenkins API token for c072: " JENKINS_API_TOKEN
+      echo
+    fi
+    claude mcp add --scope user --transport http jenkins-c072-mcp https://jenkins.mcp.cloudos.adskeng.net/mcp \
+      --header "X-Jenkins-URL: https://c072.cloudbees-ci.autodesk.com/" \
+      --header "X-Jenkins-Username: $JENKINS_USERNAME" \
+      --header "X-Jenkins-Password: $JENKINS_API_TOKEN" \
+      2>/dev/null || echo "warn: jenkins-c072-mcp already registered or claude mcp add failed"
+  fi
 fi
 
 echo "symlinking dotfiles..."
