@@ -35,6 +35,11 @@ Load order for an interactive login zsh: `zshenv` → `zprofile` → `zshrc` (�
 
 ### adsk submodule
 
+If `adsk/known_hosts` exists, `install.sh` merges its entries into
+`~/.ssh/known_hosts` via `comm -23` against a sorted copy of the existing
+file, appending only lines not already present — this dedups before
+appending, so re-running `install.sh` doesn't pile up duplicate entries.
+
 `adsk/` is a private submodule (`git@git.autodesk.com:wanj/autodesk-dotfiles.git`) holding Autodesk-specific aliases, AWS credential refresh helpers (`awsl`/`awsl-refresh`, require VPN), diagrams, and work-flavored Claude skills. Treat it as a separate repo: don't assume its contents are readable/available, and don't add Autodesk-specific logic to the main dotfiles files when it could live in `adsk/` instead. `install.sh` and `init.sh` both check for its presence with `[ -d ... ]`/`[ -f ... ]` guards before touching it — follow that pattern for any new adsk integration point.
 
 ### Claude Code integration

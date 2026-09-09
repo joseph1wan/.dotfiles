@@ -1,6 +1,10 @@
 # give us access to ^Q
 stty -ixon
 
+# match macOS-native word boundaries (Option+Delete/Left/Right stop at
+# '.', '/', '-' instead of treating "git.autodesk.com" as one word)
+WORDCHARS=${WORDCHARS//[.\/-]}
+
 # handy keybindings
 bindkey "^Y" accept-and-hold
 bindkey "^N" insert-last-word

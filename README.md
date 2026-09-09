@@ -37,6 +37,9 @@ bash install.sh
 
 ## Notes
 
+- If `adsk/known_hosts` is present, `install.sh` merges its entries into
+  `~/.ssh/known_hosts`, skipping lines already present there — safe to
+  re-run without piling up duplicates.
 - `zshenv` and `zshrc` still honor an optional untracked `~/.zshenv.local`
   / `~/.zshrc.local` for machine-specific secrets that shouldn't be
   committed at all — these are not part of this repo and not symlinked

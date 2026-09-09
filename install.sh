@@ -54,8 +54,12 @@ fi
 
 if [ -f "$DOTFILES_DIR/adsk/sshconfig" ]; then
   mkdir -p "$HOME/.ssh"
-  cp "$DOTFILES_DIR/adsk/sshconfig" "$HOME/.ssh/adsk_config"
-  chmod 600 "$HOME/.ssh/adsk_config"
+  if [ -e "$HOME/.ssh/adsk_config" ] && [ ! -L "$HOME/.ssh/adsk_config" ]; then
+    echo "skip ~/.ssh/adsk_config (exists, not a symlink)"
+  else
+    ln -sf "$DOTFILES_DIR/adsk/sshconfig" "$HOME/.ssh/adsk_config"
+    echo "linked ~/.ssh/adsk_config"
+  fi
   include_line="Include ~/.ssh/adsk_config"
   touch "$HOME/.ssh/config"
   chmod 600 "$HOME/.ssh/config"
