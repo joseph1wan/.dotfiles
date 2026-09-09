@@ -4,6 +4,7 @@ brew "fzf"
 brew "jq"
 brew "ripgrep"
 brew "fd"
+brew "tree"
 brew "stylua"
 brew "tree-sitter-cli" # required by nvim-treesitter (main branch) to compile parsers
 
