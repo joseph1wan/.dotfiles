@@ -8,9 +8,6 @@ brew "tree"
 brew "stylua"
 brew "tree-sitter-cli" # required by nvim-treesitter (main branch) to compile parsers
 
-tap "hashicorp/tap"
-brew "hashicorp/tap/vault"
-
 brew "awscli"
 brew "gh"
 brew "node"
@@ -25,5 +22,3 @@ brew "zsh-fast-syntax-highlighting"
 brew "starship"
 
 cask "docker-desktop"
-cask "zulu@17"
-cask "zulu@11"
