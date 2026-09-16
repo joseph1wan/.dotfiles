@@ -50,6 +50,8 @@
   ma = merge --abort
   df = diff --name-only
   fu = commit --amend --no-edit
+  wls = worktree list
+  wrm = worktree remove
 [diff]
   colorMoved = zebra
 [user]
