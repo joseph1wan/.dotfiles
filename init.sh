@@ -30,6 +30,15 @@ fi
 echo "installing packages from Brewfile..."
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 
+if command -v zsh >/dev/null; then
+  echo "fixing insecure zsh completion directory permissions..."
+  insecure_dirs="$(zsh -c 'autoload -Uz compaudit; compaudit' 2>/dev/null || true)"
+  if [ -n "$insecure_dirs" ]; then
+    echo "$insecure_dirs" | xargs chmod g-w,o-w
+    rm -f "$HOME/.zcompdump"
+  fi
+fi
+
 if [ "$WITH_ADSK" -eq 1 ]; then
   echo "fetching adsk submodule..."
   git -C "$DOTFILES_DIR" submodule update --init adsk || echo "warn: adsk submodule fetch failed (needs git.autodesk.com access)"

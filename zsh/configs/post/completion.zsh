@@ -10,5 +10,6 @@ else
 fi;
 
 # disable zsh bundled function mtools command mcd
-# which causes a conflict.
-compdef -d mcd
+# which causes a conflict. compinit skips defining compdef if it found
+# insecure (group/world-writable) directories in $fpath — see init.sh.
+(( $+functions[compdef] )) && compdef -d mcd
