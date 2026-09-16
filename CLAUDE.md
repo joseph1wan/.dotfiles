@@ -42,6 +42,12 @@ appending, so re-running `install.sh` doesn't pile up duplicate entries.
 
 `adsk/` is a private submodule (`git@git.autodesk.com:wanj/autodesk-dotfiles.git`) holding Autodesk-specific aliases, AWS credential refresh helpers (`awsl`/`awsl-refresh`, require VPN), diagrams, and work-flavored Claude skills. Treat it as a separate repo: don't assume its contents are readable/available, and don't add Autodesk-specific logic to the main dotfiles files when it could live in `adsk/` instead. `install.sh` and `init.sh` both check for its presence with `[ -d ... ]`/`[ -f ... ]` guards before touching it — follow that pattern for any new adsk integration point.
 
+**Deciding what goes where:** the test is "does this reference Autodesk infra, credentials, internal hostnames, or an Autodesk-only tool/registry" — not "did I add it while doing Autodesk work." Content can be generically useful (a keybinding, a `~/.dotfiles` config-editing alias, a Maven shortcut) even if you first wrote it in an adsk context; that still belongs in the main repo. Concrete precedent from past cleanups:
+- `init.sh`/`Brewfile`: HashiCorp Vault, `zulu@11`/`zulu@17`, `go`, `drawio`, npm-registry login, and Jenkins MCP registration moved to `adsk/init.sh` + `adsk/Brewfile` (invoked from `init.sh` only under `--with-adsk`) because they're Autodesk-account/tool-specific. Homebrew bootstrap, the base `Brewfile`, and generic MCP registrations (Slack, Atlassian, codebase-memory) stayed in the main `init.sh`.
+- `aliases`/`adsk/aliases.sh`: `so` (source zshrc), the dotfiles config-editing aliases (`cdd`, `vzs`, `vgc`, etc.), `gsed`, `resizeImage`, `mvnci`/`mvnp`, and `slackmd` moved out of `adsk/aliases.sh` into the main `aliases` file — none of them touch Autodesk paths, hosts, or accounts. SSH host aliases, AWS account IDs/Vault profiles, and beehive/DITA build helpers stayed in `adsk/aliases.sh`.
+
+When adding new shell config, sort it into the matching file up front using this test, rather than defaulting everything written during Autodesk work into `adsk/`.
+
 ### Claude Code integration
 
 - `claude/statusline.sh` is symlinked to `~/.claude/statusline.sh`, wired up via `statusLine` in `~/.claude/settings.json` (that settings file itself is not managed by this repo).
