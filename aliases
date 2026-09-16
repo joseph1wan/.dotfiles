@@ -54,4 +54,46 @@ readtime() {
 
 alias pkey='cat ~/.ssh/id_rsa.pub | pbcopy'
 
+#   -----------------------------
+#   SOURCING FILES
+#   -----------------------------
+alias so='source ~/.zshrc; echo "Sourced .zshrc"'
+
+#   -----------------------------
+#   CONFIG FILES
+#   -----------------------------
+alias cdd='cd ~/.dotfiles'
+alias cdl='cd ~/.dotfiles'
+alias vzs="nvim ~/.dotfiles/zshrc"
+alias al='nvim ~/.dotfiles/aliases'
+alias vgc='nvim ~/.dotfiles/gitconfig'
+alias vrc='nvim ~/.dotfiles/vimrc'
+alias vnv='nvim ~/.config/nvim/init.vim'
+alias vpack='nvim ~/.config/nvim/lua/plugins.lua'
+alias vts='nvim ~/.config/nvim/lua/treesitter-config.lua'
+alias vconform='nvim ~/.config/nvim/lua/conform-config.lua'
+alias vlint='nvim ~/.config/nvim/lua/lint-config.lua'
+alias vtele='nvim ~/.config/nvim/lua/telescope-config.lua'
+
+gsed() {
+  sed -E -i '' "s/$2/$3/g" $(grep -rl $2 $1)
+}
+
+resizeImage() {
+  imagePath="$1"
+  width=$(magick identify "$imagePath" | cut -f 3 -d ' ' | cut -f 1 -d x)
+  echo "Image width: $width"
+  if [[ width -gt 1920 ]]; then
+    echo "Resizing to be 50% smaller"
+    magick "$imagePath" -resize 50% "$imagePath"
+  fi
+  oxipng -o 4 --strip safe --alpha "$imagePath"
+}
+
+alias mvnci="mvn clean install -DskipTests"
+alias mvnp="mvn clean package"
+
+# Convert markdown in clipboard to Slack mrkdwn format
+alias slackmd='pbpaste | sed -E "s/\*\*([^*]+)\*\*/\*\1\*/g; s/~~([^~]+)~~/~\1~/g; s/\[([^]]+)\]\(([^)]+)\)/<\2|\1>/g" | pbcopy'
+
 [ -f "${DOTFILES_DIR:-$HOME/.dotfiles}/adsk/aliases.sh" ] && source "${DOTFILES_DIR:-$HOME/.dotfiles}/adsk/aliases.sh"
