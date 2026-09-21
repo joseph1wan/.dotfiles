@@ -34,6 +34,13 @@ ln -sfn "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 ln -sf "$DOTFILES_DIR/starship.toml" "$HOME/.config/starship.toml"
 
 mkdir -p "$HOME/.claude/skills"
+# prune symlinks whose source is gone (renamed or removed skills)
+for l in "$HOME"/.claude/skills/*; do
+  if [ -L "$l" ] && [ ! -e "$l" ]; then
+    rm -f "$l"
+    echo "pruned stale skill symlink: $(basename "$l")"
+  fi
+done
 for s in "$DOTFILES_DIR"/claude/skills/*/; do
   name="$(basename "$s")"
   ln -sfn "$s" "$HOME/.claude/skills/$name"
@@ -45,6 +52,10 @@ if [ -d "$DOTFILES_DIR/adsk/claude-skills" ]; then
     name="$(basename "$s")"
     ln -sfn "$s" "$HOME/.claude/skills/$name"
   done
+fi
+
+if [ -f "$DOTFILES_DIR/adsk/claude/CLAUDE.md" ]; then
+  ln -sf "$DOTFILES_DIR/adsk/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 fi
 
 if [ -f "$DOTFILES_DIR/adsk/npmrc.template" ] && [ ! -f "$HOME/.npmrc" ]; then
