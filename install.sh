@@ -54,6 +54,23 @@ if [ -d "$DOTFILES_DIR/adsk/claude-skills" ]; then
   done
 fi
 
+# mods under adsk/claude-mods/*/ load in every session via CLAUDE_CODE_PLUGIN_DIRS
+# in ~/.claude/settings.json (merged with jq; other settings left alone)
+if [ -d "$DOTFILES_DIR/adsk/claude-mods" ] && command -v jq >/dev/null 2>&1; then
+  mod_dirs=""
+  for m in "$DOTFILES_DIR"/adsk/claude-mods/*/; do
+    [ -f "$m.claude-plugin/plugin.json" ] || continue
+    mod_dirs="${mod_dirs:+$mod_dirs:}${m%/}"
+  done
+  settings="$HOME/.claude/settings.json"
+  [ -f "$settings" ] || echo '{}' > "$settings"
+  tmp="$(mktemp)"
+  jq --arg dirs "$mod_dirs" '.env.CLAUDE_CODE_PLUGIN_DIRS = $dirs' "$settings" > "$tmp" \
+    && cat "$tmp" > "$settings"
+  rm -f "$tmp"
+  echo "set CLAUDE_CODE_PLUGIN_DIRS in ~/.claude/settings.json"
+fi
+
 if [ -f "$DOTFILES_DIR/adsk/claude/CLAUDE.md" ]; then
   ln -sf "$DOTFILES_DIR/adsk/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 fi
